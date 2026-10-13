@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "author": "Velxio",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-raspberry-pi-pico",
+      "id": "pico",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "pico-dht1",
+      "top": 100,
+      "left": 379,
+      "attrs": {
+        "temperature": 40,
+        "humidity": "55"
+      }
+    },
+    {
+      "type": "wokwi-pro-dc-motor",
+      "id": "pro_dc_motor_1790859343062_ffe3qqpso",
+      "top": 222,
+      "left": 147,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_1791541946970_8jq11h1d4",
+      "top": 198,
+      "left": 301,
+      "attrs": {
+        "value": "false",
+        "brightness": 1,
+        "color": "red",
+        "lightColor": null,
+        "label": "",
+        "flip": false
+      }
+    },
+    {
+      "type": "wokwi-resistor-4k7",
+      "id": "resistor_4k7_1791542978485_s7di0pbwf",
+      "top": 355,
+      "left": 293,
+      "rotate": 180,
+      "attrs": {
+        "value": "4700"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "pico:3.3V",
+      "pico-dht1:VCC",
+      "#ff4444",
+      []
+    ],
+    [
+      "pico:GND.1",
+      "pico-dht1:GND",
+      "black",
+      []
+    ],
+    [
+      "pico:GP7",
+      "pico-dht1:SDA",
+      "#22aaff",
+      []
+    ],
+    [
+      "pico:GP17",
+      "pro_dc_motor_1790859343062_ffe3qqpso:+",
+      "#cc0000",
+      []
+    ],
+    [
+      "pro_dc_motor_1790859343062_ffe3qqpso:-",
+      "pico:GND.4",
+      "black",
+      []
+    ],
+    [
+      "pico:GP16",
+      "pico:GP16",
+      "#22c55e",
+      []
+    ],
+    [
+      "pico:GND.5",
+      "led_1791541946970_8jq11h1d4:C",
+      "black",
+      []
+    ],
+    [
+      "pico:GP16",
+      "resistor_4k7_1791542978485_s7di0pbwf:2",
+      "#22c55e",
+      []
+    ],
+    [
+      "led_1791541946970_8jq11h1d4:A",
+      "resistor_4k7_1791542978485_s7di0pbwf:1",
+      "#22c55e",
+      []
+    ]
+  ]
+}

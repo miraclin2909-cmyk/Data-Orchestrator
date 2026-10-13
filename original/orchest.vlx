@@ -1,0 +1,318 @@
+{
+  "format": "velxio-project",
+  "version": 1,
+  "exportedAt": "2026-10-12T23:41:27.544Z",
+  "name": "orchest",
+  "boards": [
+    {
+      "id": "raspberry-pi-pico",
+      "boardKind": "raspberry-pi-pico",
+      "x": 50,
+      "y": 50,
+      "activeFileGroupId": "group-raspberry-pi-pico",
+      "languageMode": "arduino",
+      "serialBaudRate": 115200,
+      "libraries": [
+        "DHT sensor library"
+      ]
+    }
+  ],
+  "fileGroups": {
+    "group-raspberry-pi-pico": [
+      {
+        "name": "sketch.ino",
+        "content": "#include <DHT.h>\n\n#define DHT_PIN 7\n#define DHT_TYPE DHT22\n\n#define FAN_PIN 17\n#define BUZZER_PIN 16\n\nDHT dht(DHT_PIN, DHT_TYPE);\n\nvoid setup() {\n  Serial.begin(115200);\n\n  dht.begin();\n\n  pinMode(FAN_PIN, OUTPUT);\n  pinMode(BUZZER_PIN, OUTPUT);\n\n  digitalWrite(FAN_PIN, LOW);\n  digitalWrite(BUZZER_PIN, LOW);\n\n  delay(1000);\n  Serial.println(\"System ready!\");\n}\n\nvoid loop() {\n\n  delay(2000);\n\n  float humidity = dht.readHumidity();\n  float temperature = dht.readTemperature();\n\n  if (isnan(humidity) || isnan(temperature)) {\n    Serial.println(\"DHT22 read error!\");\n    return;\n  }\n\n  Serial.print(\"Temperature: \");\n  Serial.print(temperature, 1);\n  Serial.print(\" C   Humidity: \");\n  Serial.print(humidity, 1);\n  Serial.println(\" %\");\n\n  // Always start with both OFF\n  digitalWrite(FAN_PIN, LOW);\n  digitalWrite(BUZZER_PIN, LOW);\n\n  if (temperature >= 55) {\n\n    digitalWrite(FAN_PIN, HIGH);\n    digitalWrite(BUZZER_PIN, HIGH);\n\n    Serial.println(\"DANGER! Fan ON | Buzzer ON\");\n\n  } \n  else if (temperature >= 45) {\n\n    digitalWrite(FAN_PIN, HIGH);\n\n    Serial.println(\"WARNING! Fan ON | Buzzer OFF\");\n\n  } \n  else {\n\n    Serial.println(\"NORMAL! Fan OFF | Buzzer OFF\");\n\n  }\n\n  Serial.println(\"----------------------------\");\n}\n/*#define BUZZER_PIN 16\n\nvoid setup() {\n  pinMode(BUZZER_PIN, OUTPUT);\n  digitalWrite(BUZZER_PIN, LOW);\n}\n\nvoid loop() {\n}*/"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "pico-dht1",
+      "metadataId": "dht22",
+      "x": 429,
+      "y": 150,
+      "properties": {
+        "temperature": 40,
+        "humidity": "55"
+      }
+    },
+    {
+      "id": "pro_dc_motor_1790859343062_ffe3qqpso",
+      "metadataId": "pro-dc-motor",
+      "x": 196.73125839233398,
+      "y": 271.799991607666,
+      "properties": {}
+    },
+    {
+      "id": "led_1791541946970_8jq11h1d4",
+      "metadataId": "led",
+      "x": 350.52539691651776,
+      "y": 247.7457554576726,
+      "properties": {
+        "value": "false",
+        "brightness": 1,
+        "color": "red",
+        "lightColor": null,
+        "label": "",
+        "flip": false
+      }
+    },
+    {
+      "id": "resistor_4k7_1791542978485_s7di0pbwf",
+      "metadataId": "resistor-4k7",
+      "x": 342.51734055263154,
+      "y": 404.9353523390866,
+      "properties": {
+        "value": "4700",
+        "rotation": 180
+      }
+    }
+  ],
+  "wires": [
+    {
+      "waypoints": [],
+      "id": "pcd-vcc",
+      "start": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "3.3V",
+        "x": 147,
+        "y": 118
+      },
+      "end": {
+        "componentId": "pico-dht1",
+        "pinName": "VCC",
+        "x": 450,
+        "y": 270.9
+      },
+      "color": "#ff4444"
+    },
+    {
+      "waypoints": [],
+      "id": "pcd-gnd",
+      "start": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GND.1",
+        "x": 58,
+        "y": 92
+      },
+      "end": {
+        "componentId": "pico-dht1",
+        "pinName": "GND",
+        "x": 478.8,
+        "y": 270.9
+      },
+      "color": "#000000"
+    },
+    {
+      "waypoints": [],
+      "id": "pcd-sda",
+      "start": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GP7",
+        "x": 58,
+        "y": 181
+      },
+      "end": {
+        "componentId": "pico-dht1",
+        "pinName": "SDA",
+        "x": 459.5,
+        "y": 270.9
+      },
+      "color": "#22aaff"
+    },
+    {
+      "waypoints": [
+        {
+          "x": 234.53124618530273,
+          "y": 296
+        },
+        {
+          "x": 234.53124618530273,
+          "y": 291.39999160766604
+        }
+      ],
+      "id": "wire-1790859383206",
+      "start": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GP17",
+        "x": 147,
+        "y": 296
+      },
+      "end": {
+        "componentId": "pro_dc_motor_1790859343062_ffe3qqpso",
+        "pinName": "+",
+        "x": 234.73125839233398,
+        "y": 291.39999160766604
+      },
+      "color": "#cc0000",
+      "autoRouted": false
+    },
+    {
+      "waypoints": [
+        {
+          "x": 324.53124618530273,
+          "y": 291.39999160766604
+        },
+        {
+          "x": 324.53124618530273,
+          "y": 382.99999237060547
+        },
+        {
+          "x": 10.531246185302734,
+          "y": 382.99999237060547
+        },
+        {
+          "x": 10.531246185302734,
+          "y": 280.99999237060547
+        },
+        {
+          "x": 58,
+          "y": 280.99999237060547
+        }
+      ],
+      "id": "wire-1790859403542",
+      "start": {
+        "componentId": "pro_dc_motor_1790859343062_ffe3qqpso",
+        "pinName": "-",
+        "x": 266.731258392334,
+        "y": 291.39999160766604
+      },
+      "end": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GND.4",
+        "x": 58,
+        "y": 283
+      },
+      "color": "#000000",
+      "autoRouted": false
+    },
+    {
+      "waypoints": [],
+      "id": "wire-1790859976227",
+      "start": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GP16",
+        "x": 147,
+        "y": 308
+      },
+      "end": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GP16",
+        "x": 147,
+        "y": 308
+      },
+      "color": "#22c55e",
+      "autoRouted": false
+    },
+    {
+      "waypoints": [
+        {
+          "x": 191.08625352578258,
+          "y": 283
+        },
+        {
+          "x": 191.08625352578258,
+          "y": 235.3545701961957
+        },
+        {
+          "x": 406.3562311546632,
+          "y": 235.3545701961957
+        },
+        {
+          "x": 406.3562311546632,
+          "y": 293.68912048891394
+        },
+        {
+          "x": 408.42117098803374,
+          "y": 293.68912048891394
+        },
+        {
+          "x": 408.42117098803374,
+          "y": 318.9846334477033
+        },
+        {
+          "x": 355.76520523708456,
+          "y": 318.9846334477033
+        },
+        {
+          "x": 355.76520523708456,
+          "y": 298.85147007234036
+        },
+        {
+          "x": 371.52539691651776,
+          "y": 298.85147007234036
+        }
+      ],
+      "id": "wire-1791542647450",
+      "start": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GND.5",
+        "x": 147,
+        "y": 283
+      },
+      "end": {
+        "componentId": "led_1791541946970_8jq11h1d4",
+        "pinName": "C",
+        "x": 371.52539691651776,
+        "y": 295.7457554576726
+      },
+      "color": "#000000",
+      "autoRouted": false
+    },
+    {
+      "waypoints": [
+        {
+          "x": 147,
+          "y": 443.799991607666
+        },
+        {
+          "x": 383.7173405526315,
+          "y": 443.799991607666
+        }
+      ],
+      "id": "wire-1791543026502",
+      "start": {
+        "componentId": "raspberry-pi-pico",
+        "pinName": "GP16",
+        "x": 147,
+        "y": 308
+      },
+      "end": {
+        "componentId": "resistor_4k7_1791542978485_s7di0pbwf",
+        "pinName": "2",
+        "x": 383.7173405526315,
+        "y": 442.2853523390866
+      },
+      "color": "#22c55e",
+      "autoRouted": true
+    },
+    {
+      "waypoints": [
+        {
+          "x": 444.16844010075937,
+          "y": 295.7457554576726
+        },
+        {
+          "x": 444.16844010075937,
+          "y": 405.4510845127232
+        }
+      ],
+      "id": "wire-1791543033484",
+      "start": {
+        "componentId": "led_1791541946970_8jq11h1d4",
+        "pinName": "A",
+        "x": 381.52539691651776,
+        "y": 295.7457554576726
+      },
+      "end": {
+        "componentId": "resistor_4k7_1791542978485_s7di0pbwf",
+        "pinName": "1",
+        "x": 442.51734055263154,
+        "y": 442.2853523390866
+      },
+      "color": "#22c55e",
+      "autoRouted": false
+    }
+  ],
+  "activeBoardId": "raspberry-pi-pico"
+}
