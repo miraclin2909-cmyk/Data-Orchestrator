@@ -1,0 +1,65 @@
+import { installSerialTap } from "../store/serialTap";
+export interface SensorReading {
+  temperature: number;
+  humidity: number;
+}
+
+export interface MLPrediction {
+  risk: string;
+  fan: boolean;
+  led: boolean;
+}
+
+export async function getMLPrediction(
+  reading: SensorReading,
+): Promise<MLPrediction> {
+  const response = await fetch("http://127.0.0.1:8000/predict", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(reading),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Python ML bridge returned HTTP ${response.status}`);
+  }
+
+  return (await response.json()) as MLPrediction;
+}
+
+const serialBuffers = new Map<string, string>();
+
+export function startMLSerialListener(): void {
+  installSerialTap((boardId, chunk) => {
+    const text =
+      (serialBuffers.get(boardId) ?? "") + chunk;
+
+    const lines = text.split(/\r?\n/);
+    serialBuffers.set(boardId, lines.pop() ?? "");
+
+    for (const line of lines) {
+      const match = line.match(
+        /ML_BRIDGE_TEST:\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/
+      );
+
+      if (!match) continue;
+
+      const temperature = Number(match[1]);
+      const humidity = Number(match[2]);
+
+      void getMLPrediction({ temperature, humidity })
+        .then((prediction) => {
+          console.log("[Velxio ML]", {
+            boardId,
+            temperature,
+            humidity,
+            prediction,
+          });
+        })
+        .catch((error: unknown) => {
+          console.error("[Velxio ML] Bridge request failed:", error);
+        });
+    }
+  });
+}

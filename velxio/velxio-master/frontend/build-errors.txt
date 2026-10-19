@@ -1,0 +1,616 @@
+
+> velxio@3.0.0 build
+> npm run generate:metadata && npm run generate:component-svgs && npm run generate:sitemap && tsc -b && vite build && node scripts/prerender-seo.mjs *
+
+
+> velxio@3.0.0 generate:metadata
+> cd .. && npx tsx scripts/generate-component-metadata.ts
+
+🔍 Scanning wokwi-elements directory...
+ℹ️  wokwi-elements src/ not found at: C:\Users\Rosalin\Downloads\velxio\velxio-master\third-party\wokwi-elements\src
+   Skipping metadata regeneration — using the committed
+   frontend/public/components-metadata.json as-is.
+   To regenerate (only needed when adding new components):
+     git clone https://github.com/wokwi/wokwi-elements.git \
+       third-party/wokwi-elements
+
+> velxio@3.0.0 generate:component-svgs
+> node ../scripts/generate-component-svgs.cjs
+
+  ✓ wokwi-led
+  ✓ wokwi-led-green
+  ✓ wokwi-led-blue
+  ✓ wokwi-led-yellow
+  ✓ wokwi-rgb-led
+  ✓ wokwi-resistor
+  ✓ wokwi-pushbutton
+  ✓ wokwi-pushbutton-6mm
+  ✓ wokwi-dht22
+  ✓ wokwi-hc-sr04
+  ✓ wokwi-mpu6050
+  ✓ wokwi-lcd2004
+  ✓ wokwi-ssd1306
+  ✓ wokwi-ili9341
+  ✓ wokwi-7segment
+  ✓ wokwi-potentiometer
+  ✓ wokwi-servo
+  ✓ wokwi-ntc-temperature-sensor
+  ✓ wokwi-photoresistor-sensor
+  ✓ wokwi-pir-motion-sensor
+  ✓ wokwi-analog-joystick
+  ✓ wokwi-buzzer
+  ✓ wokwi-neopixel
+  ✓ wokwi-neopixel-matrix
+  ✓ wokwi-led-ring
+  ✓ wokwi-ds1307
+  ✓ wokwi-esp32-devkit-v1
+  ✓ wokwi-nano-rp2040-connect
+
+📋 Copying board SVGs from public/boards/...
+  ✓ wokwi-raspberry-pi-pico ← boards/pi-pico.svg
+  ✓ wokwi-raspberry-pi-pico-w ← boards/pi-pico-w.svg
+  ✓ wokwi-arduino-uno ← boards/arduino-uno.svg
+  ✓ wokwi-arduino-uno-board ← boards/arduino-uno.svg
+  ✓ wokwi-arduino-nano ← boards/arduino-nano.svg
+  ✓ wokwi-arduino-nano-board ← boards/arduino-nano.svg
+  ✓ wokwi-arduino-mega ← boards/arduino-mega.svg
+  ✓ wokwi-arduino-mega-board ← boards/arduino-mega.svg
+  ✓ wokwi-esp32-board ← boards/esp32-devkit-c-v4.svg
+  ✓ velxio-raspberry-pi-3 ← boards/Raspberry_Pi_3.svg
+  ✓ wokwi-arduino-nano-esp32 ← boards/arduino-nano-esp32.svg
+  ✓ wokwi-esp32-devkit-c-v4 ← boards/esp32-devkit-c-v4.svg
+  ✓ wokwi-esp32-cam ← boards/esp32-cam.svg
+  ✓ wokwi-esp32-s3 ← boards/esp32-s3.svg
+  ✓ wokwi-esp32-c3 ← boards/esp32-c3.svg
+  ✓ wokwi-xiao-esp32-s3 ← boards/xiao-esp32-s3.svg
+  ✓ wokwi-xiao-esp32-c3 ← boards/xiao-esp32-c3.svg
+  ✓ wokwi-esp32c3-supermini ← boards/esp32c3-supermini.svg
+
+✅ Done: 46 generated, 0 skipped, 0 failed
+   → C:\Users\Rosalin\Downloads\velxio\velxio-master\frontend\public\component-svgs
+
+> velxio@3.0.0 generate:sitemap
+> node scripts/generate-sitemap.mjs
+
+sitemap.xml generated → 195 URLs (2026-10-17) [21 routes + 174 examples]
+src/__tests__/attiny85-simulation.test.ts(99,7): error TS6133: 'TINY85_PWM_HEX' is declared but its value is never read.
+src/__tests__/attiny85-simulation.test.ts(324,27): error TS2345: Argument of type 'Mock<Procedure | Constructable>' is not assignable to parameter of type 'PwmCallback'.
+  Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type 'PwmCallback'.
+    Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' provides no match for the signature '(pin: number, dutyCycle: number, timeMs?: number | undefined): void'.
+src/__tests__/AVRSimulator.test.ts(192,27): error TS2345: Argument of type 'Mock<Procedure | Constructable>' is not assignable to parameter of type 'PwmCallback'.
+  Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type 'PwmCallback'.
+    Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' provides no match for the signature '(pin: number, dutyCycle: number, timeMs?: number | undefined): void'.
+src/__tests__/bjt-common-emitter-behaviour.test.ts(67,22): error TS2345: Argument of type 'VectorValue' is not assignable to parameter of type 'number | { real: number; imag: number; }'.
+  Type 'ComplexNumber' is not assignable to type 'number | { real: number; imag: number; }'.
+    Property 'imag' is missing in type 'ComplexNumber' but required in type '{ real: number; imag: number; }'.
+src/__tests__/bjt-common-emitter-behaviour.test.ts(68,25): error TS2345: Argument of type 'VectorValue' is not assignable to parameter of type 'number | { real: number; imag: number; }'.
+  Type 'ComplexNumber' is not assignable to type 'number | { real: number; imag: number; }'.
+    Property 'imag' is missing in type 'ComplexNumber' but required in type '{ real: number; imag: number; }'.
+src/__tests__/bjt-common-emitter-behaviour.test.ts(77,27): error TS2345: Argument of type 'VectorValue' is not assignable to parameter of type 'number | { real: number; imag: number; }'.
+  Type 'ComplexNumber' is not assignable to type 'number | { real: number; imag: number; }'.
+    Property 'imag' is missing in type 'ComplexNumber' but required in type '{ real: number; imag: number; }'.
+src/__tests__/bjt-common-emitter-behaviour.test.ts(87,51): error TS2345: Argument of type '(v: number | { real: number; imag: number; }) => number' is not assignable to parameter of type '(value: VectorValue, index: number, array: VectorValue[]) => number'.
+  Types of parameters 'v' and 'value' are incompatible.
+    Type 'VectorValue' is not assignable to type 'number | { real: number; imag: number; }'.
+      Type 'ComplexNumber' is not assignable to type 'number | { real: number; imag: number; }'.
+        Property 'imag' is missing in type 'ComplexNumber' but required in type '{ real: number; imag: number; }'.
+src/__tests__/board-buses/board-buses-repro-chips-other.test.ts(31,23): error TS7016: Could not find a declaration file for module 'jsdom'. 'C:/Users/Rosalin/Downloads/velxio/velxio-master/frontend/node_modules/jsdom/lib/api.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/jsdom` if it exists or add a new declaration (.d.ts) file containing `declare module 'jsdom';`
+src/__tests__/board-buses/perf/bus-perf-oss.test.ts(237,20): error TS2339: Property 'spi' does not exist on type 'AVRSimulator'.
+src/__tests__/board-buses/perf/bus-perf-oss.test.ts(284,20): error TS2339: Property 'spi' does not exist on type 'RP2040Simulator'.
+src/__tests__/board-buses/spi-three-wire-answer.test.ts(9,15): error TS2305: Module '"../../simulation/buses/types"' has no exported member 'DiagnosticSink'.
+src/__tests__/board-kinds-coverage.test.ts(104,36): error TS2345: Argument of type '"arduino-uno" | "arduino-nano" | "arduino-mega" | "raspberry-pi-pico" | "pi-pico-w" | "esp32" | "esp32-cam" | "esp32-s3" | "esp32-c3" | (string & {})' is not assignable to parameter of type 'BoardKind'.
+  Type 'string & {}' is not assignable to type 'BoardKind'.
+src/__tests__/board-kinds-coverage.test.ts(106,23): error TS2345: Argument of type '"arduino-uno" | "arduino-nano" | "arduino-mega" | "raspberry-pi-pico" | "pi-pico-w" | "esp32" | "esp32-cam" | "esp32-s3" | "esp32-c3" | (string & {})' is not assignable to parameter of type 'BoardKind'.
+  Type 'string & {}' is not assignable to type 'BoardKind'.
+src/__tests__/buzzer-metronome.test.ts(105,19): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/chip-framebuffer-transport.test.ts(27,15): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/__tests__/dual-pico-serial-passthrough.test.ts(177,32): error TS2322: Type '({ id: string; start: { componentId: string; pinName: string; x: number; y: number; }; end: { componentId: string; pinName: string; x: number; y: number; }; color: string; signalType: "power-gnd"; } | { id: string; start: { ...; }; end: { ...; }; color: string; signalType: "digital"; })[]' is not assignable to type 'Wire[]'.
+  Type '{ id: string; start: { componentId: string; pinName: string; x: number; y: number; }; end: { componentId: string; pinName: string; x: number; y: number; }; color: string; signalType: "power-gnd"; } | { id: string; start: { ...; }; end: { ...; }; color: string; signalType: "digital"; }' is not assignable to type 'Wire'.
+    Property 'waypoints' is missing in type '{ id: string; start: { componentId: string; pinName: string; x: number; y: number; }; end: { componentId: string; pinName: string; x: number; y: number; }; color: string; signalType: "power-gnd"; }' but required in type 'Wire'.
+src/__tests__/epaper-part-integration.test.ts(23,23): error TS7016: Could not find a declaration file for module 'jsdom'. 'C:/Users/Rosalin/Downloads/velxio/velxio-master/frontend/node_modules/jsdom/lib/api.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/jsdom` if it exists or add a new declaration (.d.ts) file containing `declare module 'jsdom';`
+src/__tests__/esp32-dht22-flow.test.ts(444,12): error TS18046: 'firstMsg.data.sensors' is of type 'unknown'.
+src/__tests__/esp32-dht22-flow.test.ts(445,12): error TS18046: 'firstMsg.data.sensors' is of type 'unknown'.
+src/__tests__/esp32-integration.test.ts(473,30): error TS6133: 'fileGroups' is declared but its value is never read.
+src/__tests__/esp32-servo-pot.test.ts(318,16): error TS2554: Expected 1 arguments, but got 0.
+src/__tests__/esp32-wifi-webserver-integration.test.ts(428,11): error TS6133: 'clientId' is declared but its value is never read.
+src/__tests__/esp32-wifi-webserver-integration.test.ts(442,11): error TS6133: 'wifiEnabled' is declared but its value is never read.
+src/__tests__/esp32c3-blink.test.ts(61,56): error TS2339: Property 'stderr' does not exist on type 'ErrnoException'.
+src/__tests__/esp32c3-simulation.test.ts(537,45): error TS6133: 'cb' is declared but its value is never read.
+src/__tests__/examples-all-buckets-smoke.test.ts(25,24): error TS6133: 'expect' is declared but its value is never read.
+src/__tests__/examples-gallery-smoke.test.ts(31,24): error TS6133: 'expect' is declared but its value is never read.
+src/__tests__/firmware-loader.test.ts(49,26): error TS2322: Type 'Uint8Array<ArrayBufferLike>' is not assignable to type 'BlobPart'.
+  Type 'Uint8Array<ArrayBufferLike>' is not assignable to type 'ArrayBufferView<ArrayBuffer>'.
+    Types of property 'buffer' are incompatible.
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is not assignable to type 'ArrayBuffer'.
+          Types of property '[Symbol.toStringTag]' are incompatible.
+            Type '"SharedArrayBuffer"' is not assignable to type '"ArrayBuffer"'.
+src/__tests__/helpers/avrTestHarness.ts(40,11): error TS6133: 'timers' is declared but its value is never read.
+src/__tests__/helpers/testSolver.ts(116,15): error TS2322: Type 'Float64Array<ArrayBufferLike>' is not assignable to type 'Float64Array<ArrayBuffer>'.
+  Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+    Type 'SharedArrayBuffer' is not assignable to type 'ArrayBuffer'.
+      Types of property '[Symbol.toStringTag]' are incompatible.
+        Type '"SharedArrayBuffer"' is not assignable to type '"ArrayBuffer"'.
+src/__tests__/install-libraries.test.ts(21,32): error TS6133: 'beforeEach' is declared but its value is never read.
+src/__tests__/interactive-parts.test.ts(93,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(102,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(115,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(125,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(129,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => value is any[], thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([event]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => value is any[]'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+  Overload 2 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => unknown, thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([event]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => unknown'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+src/__tests__/interactive-parts.test.ts(141,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(145,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => value is any[], thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([event]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => value is any[]'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+  Overload 2 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => unknown, thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([event]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => unknown'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+src/__tests__/interactive-parts.test.ts(158,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(284,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => value is any[], thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([ev]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => value is any[]'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+  Overload 2 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => unknown, thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([ev]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => unknown'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+src/__tests__/interactive-parts.test.ts(348,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(358,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(368,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(371,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => value is any[], thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([ev]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => value is any[]'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+  Overload 2 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => unknown, thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([ev]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => unknown'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+src/__tests__/interactive-parts.test.ts(382,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/interactive-parts.test.ts(385,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => value is any[], thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([ev]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => value is any[]'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+  Overload 2 of 2, '(predicate: (value: any[], index: number, obj: any[][]) => unknown, thisArg?: any): any[] | undefined', gave the following error.
+    Argument of type '([ev]: [string]) => boolean' is not assignable to parameter of type '(value: any[], index: number, obj: any[][]) => unknown'.
+      Types of parameters '__0' and 'value' are incompatible.
+        Type 'any[]' is not assignable to type '[string]'.
+          Target requires 1 element(s) but source may have fewer.
+src/__tests__/interactive-parts.test.ts(397,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(87,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(87,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(95,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(95,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(103,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(103,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(111,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(111,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(123,21): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(123,21): error TS18048: 'logic.attachEvents' is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(123,27): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(132,21): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(132,21): error TS18048: 'logic.attachEvents' is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(132,27): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(144,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(144,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(173,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(173,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(208,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(208,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(237,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(237,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(272,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(272,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(279,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(279,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(287,5): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(287,11): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(298,21): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(298,21): error TS18048: 'logic.attachEvents' is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(298,27): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/logic-gate-parts.test.ts(306,21): error TS2722: Cannot invoke an object which is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(306,21): error TS18048: 'logic.attachEvents' is possibly 'undefined'.
+src/__tests__/logic-gate-parts.test.ts(306,27): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/mega-emulation.test.ts(86,3): error TS2304: Cannot find name 'afterEach'.
+src/__tests__/motor-parts.test.ts(74,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(87,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(90,7): error TS2345: Argument of type '([event]: [string]) => string' is not assignable to parameter of type '(value: any[], index: number, array: any[][]) => string'.
+  Types of parameters '__0' and 'value' are incompatible.
+    Type 'any[]' is not assignable to type '[string]'.
+      Target requires 1 element(s) but source may have fewer.
+src/__tests__/motor-parts.test.ts(110,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(133,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(155,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(171,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(200,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(225,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(264,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(301,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/motor-parts.test.ts(338,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/multi-board-integration.test.ts(184,30): error TS6133: 'fileGroups' is declared but its value is never read.
+src/__tests__/overlay-seams.test.ts(125,36): error TS2493: Tuple type '[]' of length '0' has no element at index '0'.
+src/__tests__/overlay-seams.test.ts(132,38): error TS2493: Tuple type '[]' of length '0' has no element at index '0'.
+src/__tests__/phase-2-device-models.test.ts(13,15): error TS2305: Module '"../simulation/spice/types"' has no exported member 'PlacedComponent'.
+src/__tests__/pi-line-sensor-channel.test.ts(39,5): error TS2322: Type 'Mock<Procedure | Constructable>' is not assignable to type '((record: Record<string, unknown>) => void) & Mock<Procedure | Constructable>'.
+  Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '((record: Record<string, unknown>) => void) & Mock<Procedure | Constructable>'.
+    Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '((record: Record<string, unknown>) => void) & MockInstance<Procedure | Constructable> & { (...args: any[]): any; new (...args: any[]): any; } & {}'.
+      Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '(record: Record<string, unknown>) => void'.
+        Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' provides no match for the signature '(record: Record<string, unknown>): void'.
+src/__tests__/pi-line-sensor-channel.test.ts(40,5): error TS2322: Type 'Mock<Procedure | Constructable>' is not assignable to type '((pin: number, props: Record<string, unknown>) => void) & Mock<Procedure | Constructable>'.
+  Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '((pin: number, props: Record<string, unknown>) => void) & Mock<Procedure | Constructable>'.
+    Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '((pin: number, props: Record<string, unknown>) => void) & MockInstance<Procedure | Constructable> & { (...args: any[]): any; new (...args: any[]): any; } & {}'.
+      Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '(pin: number, props: Record<string, unknown>) => void'.
+        Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' provides no match for the signature '(pin: number, props: Record<string, unknown>): void'.
+src/__tests__/pi-line-sensor-channel.test.ts(41,5): error TS2322: Type 'Mock<Procedure | Constructable>' is not assignable to type '((pin: number) => void) & Mock<Procedure | Constructable>'.
+  Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '((pin: number) => void) & Mock<Procedure | Constructable>'.
+    Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '((pin: number) => void) & MockInstance<Procedure | Constructable> & { (...args: any[]): any; new (...args: any[]): any; } & {}'.
+      Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' is not assignable to type '(pin: number) => void'.
+        Type 'MockInstance<Procedure | Constructable> & (new (...args: any[]) => any) & {}' provides no match for the signature '(pin: number): void'.
+src/__tests__/pi-linux-mode-restart.test.ts(9,44): error TS6133: 'vi' is declared but its value is never read.
+src/__tests__/pi-linux-mode-restart.test.ts(24,15): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/__tests__/pin-trace-precedence.test.ts(23,25): error TS6133: 'traceBoardGpio' is declared but its value is never read.
+src/__tests__/protocol-parts.test.ts(480,17): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/protocol-parts.test.ts(1917,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/protocol-parts.test.ts(1924,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/protocol-parts.test.ts(1932,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/protocol-parts.test.ts(1955,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/protocol-parts.test.ts(1973,17): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/protocol-parts.test.ts(1982,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/rp2040-pio-servo.test.ts(32,7): error TS6133: 'FSTAT' is declared but its value is never read.
+src/__tests__/rp2040-pio-servo.test.ts(36,7): error TS6133: 'SM0_SHIFTCTRL' is declared but its value is never read.
+src/__tests__/rp2040-pio-servo.test.ts(38,7): error TS6133: 'TXF0' is declared but its value is never read.
+src/__tests__/rp2040-pio-servo.test.ts(47,36): error TS6133: 'count' is declared but its value is never read.
+src/__tests__/rp2040-pio-servo.test.ts(53,10): error TS6133: 'pioPull' is declared but its value is never read.
+src/__tests__/rp2040-realtime.test.ts(18,32): error TS6133: 'beforeEach' is declared but its value is never read.
+src/__tests__/sensor-parts.test.ts(105,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(126,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(141,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(153,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(177,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(190,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(205,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(219,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(257,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(325,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(338,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(349,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(550,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(561,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(581,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(592,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(612,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(615,70): error TS2345: Argument of type '([p]: [number]) => number' is not assignable to parameter of type '(value: any[], index: number, array: any[][]) => number'.
+  Types of parameters '__0' and 'value' are incompatible.
+    Type 'any[]' is not assignable to type '[number]'.
+      Target requires 1 element(s) but source may have fewer.
+src/__tests__/sensor-parts.test.ts(626,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(650,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(667,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(677,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(694,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(775,7): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(806,9): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(819,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(853,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(881,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(935,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(950,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(967,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(984,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/sensor-parts.test.ts(995,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(280,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(301,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(320,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(331,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(342,18): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(361,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(375,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(383,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(399,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(410,18): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(433,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(454,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(475,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(492,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(509,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(524,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(542,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(555,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(577,22): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(593,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(617,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(640,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(660,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(681,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(700,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(713,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(735,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(754,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(773,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(783,18): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(803,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(819,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(836,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(846,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(860,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(878,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(896,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(918,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(935,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(954,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(968,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(984,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(994,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1045,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1075,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1089,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1098,18): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1112,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1123,21): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1133,18): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/simulation-parts.test.ts(1146,5): error TS2554: Expected 4-5 arguments, but got 3.
+src/__tests__/spice-rectifier-integration.test.ts(68,39): error TS2345: Argument of type '{ components: ({ id: string; metadataId: string; properties: { waveform: string; frequency: number; amplitude: number; offset: number; value?: undefined; }; } | { id: string; metadataId: string; properties: { ...; }; } | { ...; })[]; wires: { ...; }[]; boards: { ...; }[]; }' is not assignable to parameter of type 'StoreSnapshot'.
+  Types of property 'wires' are incompatible.
+    Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }[]' is not assignable to type 'Wire[]'.
+      Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }' is missing the following properties from type 'Wire': waypoints, color
+src/__tests__/spice-rectifier-integration.test.ts(77,39): error TS2345: Argument of type '{ components: ({ id: string; metadataId: string; properties: { waveform: string; frequency: number; amplitude: number; offset: number; value?: undefined; }; } | { id: string; metadataId: string; properties: { ...; }; } | { ...; })[]; wires: { ...; }[]; boards: { ...; }[]; }' is not assignable to parameter of type 'StoreSnapshot'.
+  Types of property 'wires' are incompatible.
+    Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }[]' is not assignable to type 'Wire[]'.
+      Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }' is missing the following properties from type 'Wire': waypoints, color
+src/__tests__/spice-rectifier-integration.test.ts(128,11): error TS2739: Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/__tests__/spice-rectifier-integration.test.ts(129,11): error TS2739: Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/__tests__/spice-rectifier-integration.test.ts(133,11): error TS2739: Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/__tests__/spice-rectifier-integration.test.ts(134,11): error TS2739: Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/__tests__/spice-rectifier-integration.test.ts(138,11): error TS2739: Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/__tests__/spice-rectifier-integration.test.ts(139,11): error TS2739: Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/__tests__/spice-rectifier-live-repro.test.ts(31,32): error TS6133: 'vi' is declared but its value is never read.
+src/__tests__/spice-rectifier-live-repro.test.ts(31,36): error TS6133: 'beforeEach' is declared but its value is never read.
+src/__tests__/spice-rectifier-live-repro.test.ts(31,48): error TS6133: 'afterEach' is declared but its value is never read.
+src/__tests__/spice-rectifier-live-repro.test.ts(113,39): error TS2345: Argument of type '{ components: ({ id: string; metadataId: string; properties: { waveform: string; frequency: number; amplitude: number; offset: number; value?: undefined; }; } | { id: string; metadataId: string; properties: { ...; }; } | { ...; })[]; wires: { ...; }[]; boards: { ...; }[]; }' is not assignable to parameter of type 'StoreSnapshot'.
+  Types of property 'wires' are incompatible.
+    Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }[]' is not assignable to type 'Wire[]'.
+      Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }' is missing the following properties from type 'Wire': waypoints, color
+src/__tests__/spice-signal-generator-tran.test.ts(10,1): error TS6133: 'buildNetlist' is declared but its value is never read.
+src/__tests__/virtual-i2c-devices.test.ts(36,7): error TS6133: 'readResult' is declared but its value is never read.
+src/__tests__/virtual-i2c-devices.test.ts(37,7): error TS6133: 'writeAck' is declared but its value is never read.
+src/__tests__/virtual-i2c-devices.test.ts(38,7): error TS6133: 'connectAck' is declared but its value is never read.
+src/__tests__/virtual-i2c-devices.test.ts(485,12): error TS6133: 'compensateP' is declared but its value is never read.
+src/__tests__/voltmeter-waveform.test.ts(71,9): error TS2345: Argument of type '{ id: string; start: WireEndpoint; end: WireEndpoint; }[]' is not assignable to parameter of type 'Wire[]'.
+  Type '{ id: string; start: WireEndpoint; end: WireEndpoint; }' is missing the following properties from type 'Wire': waypoints, color
+src/__tests__/voltmeter-waveform.test.ts(158,7): error TS2345: Argument of type '{ id: string; start: WireEndpoint; end: WireEndpoint; }[]' is not assignable to parameter of type 'Wire[]'.
+  Type '{ id: string; start: WireEndpoint; end: WireEndpoint; }' is missing the following properties from type 'Wire': waypoints, color
+src/components/DynamicComponent.tsx(660,13): error TS2322: Type 'Component[]' is not assignable to type 'import("C:/Users/Rosalin/Downloads/velxio/velxio-master/frontend/src/types/components").Component[]'.
+  Property 'type' is missing in type 'Component' but required in type 'import("C:/Users/Rosalin/Downloads/velxio/velxio-master/frontend/src/types/components").Component'.
+src/components/editor/EditorToolbar.tsx(126,7): error TS2740: Type '{ 'arduino-uno': string; 'arduino-nano': string; 'arduino-mega': string; 'raspberry-pi-pico': string; 'raspberry-pi-3': string; 'raspberry-pi-4': string; 'raspberry-pi-5': string; esp32: string; 'esp32-s3': string; ... 8 more ...; 'stm32-netduino2': string; }' is missing the following properties from type 'Record<BoardKind, string>': "pi-pico-w", "raspberry-pi-zero", "raspberry-pi-1", "raspberry-pi-2", and 8 more.
+src/components/editor/EditorToolbar.tsx(126,7): error TS6133: 'BOARD_PILL_ICON' is declared but its value is never read.
+src/components/editor/EditorToolbar.tsx(147,7): error TS2740: Type '{ 'arduino-uno': string; 'arduino-nano': string; 'arduino-mega': string; 'raspberry-pi-pico': string; 'raspberry-pi-3': string; 'raspberry-pi-4': string; 'raspberry-pi-5': string; esp32: string; 'esp32-s3': string; ... 8 more ...; 'stm32-netduino2': string; }' is missing the following properties from type 'Record<BoardKind, string>': "pi-pico-w", "raspberry-pi-zero", "raspberry-pi-1", "raspberry-pi-2", and 8 more.
+src/components/editor/EditorToolbar.tsx(147,7): error TS6133: 'BOARD_PILL_COLOR' is declared but its value is never read.
+src/components/editor/EditorToolbar.tsx(1423,18): error TS2322: Type '"info"' is not assignable to type '"error" | "success"'.
+src/components/editor/FileExplorer.tsx(302,7): error TS2740: Type '{ 'arduino-uno': string; 'arduino-nano': string; 'arduino-mega': string; 'raspberry-pi-pico': string; 'raspberry-pi-3': string; esp32: string; 'esp32-s3': string; 'esp32-c3': string; 'stm32-bluepill': string; ... 6 more ...; 'stm32-netduino2': string; }' is missing the following properties from type 'Record<BoardKind, string>': "pi-pico-w", "raspberry-pi-zero", "raspberry-pi-1", "raspberry-pi-2", and 10 more.
+src/components/editor/FileExplorer.tsx(322,7): error TS2740: Type '{ 'arduino-uno': string; 'arduino-nano': string; 'arduino-mega': string; 'raspberry-pi-pico': string; 'raspberry-pi-3': string; esp32: string; 'esp32-s3': string; 'esp32-c3': string; 'stm32-bluepill': string; ... 6 more ...; 'stm32-netduino2': string; }' is missing the following properties from type 'Record<BoardKind, string>': "pi-pico-w", "raspberry-pi-zero", "raspberry-pi-1", "raspberry-pi-2", and 10 more.
+src/components/raspberry-pi/VirtualFileSystem.tsx(10,1): error TS6133: 'VfsNode' is declared but its value is never read.
+src/components/raspberry-pi/VirtualFileSystem.tsx(441,11): error TS2322: Type 'RefObject<HTMLInputElement | null>' is not assignable to type 'RefObject<HTMLInputElement>'.
+  Type 'HTMLInputElement | null' is not assignable to type 'HTMLInputElement'.
+    Type 'null' is not assignable to type 'HTMLInputElement'.
+src/components/raspberry-pi/VirtualFileSystem.tsx(448,11): error TS2322: Type 'RefObject<HTMLInputElement | null>' is not assignable to type 'RefObject<HTMLInputElement>'.
+  Type 'HTMLInputElement | null' is not assignable to type 'HTMLInputElement'.
+    Type 'null' is not assignable to type 'HTMLInputElement'.
+src/components/simulator/BoardPickerModal.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/simulator/BoardPickerModal.tsx(16,7): error TS2740: Type '{ 'arduino-uno': string; 'arduino-nano': string; 'arduino-mega': string; 'raspberry-pi-pico': string; 'raspberry-pi-3': string; 'raspberry-pi-4': string; 'raspberry-pi-5': string; esp32: string; 'esp32-s3': string; 'esp32-c3': string; 'stm32-bluepill': string; 'stm32-blackpill': string; }' is missing the following properties from type 'Record<BoardKind, string>': "pi-pico-w", "raspberry-pi-zero", "raspberry-pi-1", "raspberry-pi-2", and 14 more.
+src/components/simulator/BoardPickerModal.tsx(31,7): error TS2740: Type '{ 'arduino-uno': string; 'arduino-nano': string; 'arduino-mega': string; 'raspberry-pi-pico': string; 'raspberry-pi-3': string; 'raspberry-pi-4': string; 'raspberry-pi-5': string; esp32: string; 'esp32-s3': string; 'esp32-c3': string; 'stm32-bluepill': string; 'stm32-blackpill': string; }' is missing the following properties from type 'Record<BoardKind, string>': "pi-pico-w", "raspberry-pi-zero", "raspberry-pi-1", "raspberry-pi-2", and 14 more.
+src/components/simulator/FlashModal.tsx(38,15): error TS2459: Module '"../../store/useSimulatorStore"' declares 'BoardInstance' locally, but it is not exported.
+src/components/simulator/FlashModal.tsx(41,28): error TS6133: 'FlashEvent' is declared but its value is never read.
+src/components/simulator/Oscilloscope.tsx(708,13): error TS2322: Type 'RefObject<HTMLDivElement | null>' is not assignable to type 'RefObject<HTMLDivElement>'.
+  Type 'HTMLDivElement | null' is not assignable to type 'HTMLDivElement'.
+    Type 'null' is not assignable to type 'HTMLDivElement'.
+src/components/simulator/SerialMonitor.tsx(11,1): error TS6133: 'BoardKind' is declared but its value is never read.
+src/components/simulator/SimulatorCanvas.tsx(221,9): error TS6133: 'boardType' is declared but its value is never read.
+src/components/simulator/SimulatorCanvas.tsx(2709,17): error TS2322: Type 'boolean | WireInProgress' is not assignable to type 'boolean'.
+  Type 'WireInProgress' is not assignable to type 'boolean'.
+src/components/simulator/SimulatorCanvas.tsx(2713,17): error TS2322: Type 'WireInProgress | null' is not assignable to type 'boolean | undefined'.
+  Type 'null' is not assignable to type 'boolean | undefined'.
+src/components/simulator/SimulatorCanvas.tsx(2855,17): error TS2322: Type 'boolean | WireInProgress' is not assignable to type 'boolean'.
+  Type 'WireInProgress' is not assignable to type 'boolean'.
+src/components/simulator/SimulatorCanvas.tsx(2858,17): error TS2322: Type 'WireInProgress | null' is not assignable to type 'boolean | undefined'.
+  Type 'null' is not assignable to type 'boolean | undefined'.
+src/components/simulator/SimulatorCanvas.tsx(3432,19): error TS2322: Type 'boolean | WireInProgress' is not assignable to type 'boolean | undefined'.
+  Type 'WireInProgress' is not assignable to type 'boolean | undefined'.
+src/components/simulator/SimulatorCanvas.tsx(3433,19): error TS2322: Type 'WireInProgress | null' is not assignable to type 'boolean | undefined'.
+  Type 'null' is not assignable to type 'boolean | undefined'.
+src/components/velxio-components/ArduinoMega.tsx(26,5): error TS2339: Property 'wokwi-arduino-mega' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/ArduinoNano.tsx(26,5): error TS2339: Property 'wokwi-arduino-nano' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/ArduinoUno.tsx(27,5): error TS2339: Property 'wokwi-arduino-uno' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Attiny85.tsx(36,5): error TS2339: Property 'velxio-attiny85' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/EPaper.tsx(36,3): error TS2339: Property 'velxio-epaper' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/EPaperElement.ts(22,3): error TS6133: 'DEFAULT_PANEL_KIND' is declared but its value is never read.
+src/components/velxio-components/Esp32.tsx(41,5): error TS2339: Property 'velxio-esp32' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/LED.tsx(63,5): error TS2339: Property 'wokwi-led' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/PiPicoW.tsx(18,3): error TS2339: Property 'velxio-pi-pico-w' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Potentiometer.tsx(37,5): error TS2339: Property 'wokwi-potentiometer' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Pushbutton.tsx(49,5): error TS2339: Property 'wokwi-pushbutton' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/RaspberryPi4.tsx(25,3): error TS2339: Property 'velxio-raspberry-pi-4' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/RaspberryPi5.tsx(23,3): error TS2339: Property 'velxio-raspberry-pi-5' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Resistor.tsx(21,5): error TS2339: Property 'wokwi-resistor' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(29,3): error TS2339: Property 'velxio-stm32-bluepill' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(33,3): error TS2339: Property 'velxio-stm32-blackpill' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(37,3): error TS2339: Property 'velxio-stm32-bluepill-f103cb' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(41,3): error TS2339: Property 'velxio-stm32-blackpill-f401' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(45,3): error TS2339: Property 'velxio-stm32-f4-discovery' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(49,3): error TS2339: Property 'velxio-stm32-olimex-h405' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(53,3): error TS2339: Property 'velxio-stm32-netduino-plus2' does not exist on type 'JSX.IntrinsicElements'.
+src/components/velxio-components/Stm32BluePill.tsx(57,3): error TS2339: Property 'velxio-stm32-netduino2' does not exist on type 'JSX.IntrinsicElements'.
+src/data/examples-analog.ts(91,10): error TS6133: 'bjtPnp' is declared but its value is never read.
+src/data/examples-retro-intel.ts(838,3): error TS2741: Property 'code' is missing in type '{ id: string; title: string; description: string; category: "circuits"; difficulty: "advanced"; boardFilter: string; tags: string[]; components: { type: string; id: string; x: number; y: number; properties: { ...; }; }[]; wires: { ...; }[]; }' but required in type 'ExampleProject'.
+src/data/examples.ts(16,29): error TS2307: Cannot find module '@pro/data/proExamples' or its corresponding type declarations.
+src/data/examples.ts(2327,5): error TS2322: Type '"motors"' is not assignable to type '"games" | "robotics" | "basics" | "communication" | "circuits" | "sensors" | "displays"'.
+src/data/examples.ts(2399,5): error TS2322: Type '"motors"' is not assignable to type '"games" | "robotics" | "basics" | "communication" | "circuits" | "sensors" | "displays"'.
+src/data/examples.ts(2477,5): error TS2322: Type '"motors"' is not assignable to type '"games" | "robotics" | "basics" | "communication" | "circuits" | "sensors" | "displays"'.
+src/data/examples.ts(2555,5): error TS2322: Type '"motors"' is not assignable to type '"games" | "robotics" | "basics" | "communication" | "circuits" | "sensors" | "displays"'.
+src/entry-server.tsx(64,28): error TS2307: Cannot find module '@pro/pages/marketing' or its corresponding type declarations.
+src/entry-server.tsx(69,32): error TS2307: Cannot find module '@pro/i18n/register' or its corresponding type declarations.
+src/i18n/useLocalizedNavigate.ts(38,61): error TS2493: Tuple type '[delta: number]' of length '1' has no element at index '1'.
+src/main.tsx(102,12): error TS2307: Cannot find module '@pro/desktop_index' or its corresponding type declarations.
+src/main.tsx(107,12): error TS2307: Cannot find module '@pro/index' or its corresponding type declarations.
+src/pages/EditorPage.tsx(38,1): error TS6133: 'CompilationLog' is declared but its value is never read.
+src/pages/EditorPage.tsx(94,9): error TS6133: 'activeBoardId' is declared but its value is never read.
+src/seoRoutes.ts(16,32): error TS2307: Cannot find module '@pro/seoRoutes' or its corresponding type declarations.
+src/services/flashService.ts(82,15): error TS2322: Type 'Uint8Array<ArrayBufferLike>' is not assignable to type 'BlobPart'.
+  Type 'Uint8Array<ArrayBufferLike>' is not assignable to type 'ArrayBufferView<ArrayBuffer>'.
+    Types of property 'buffer' are incompatible.
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is not assignable to type 'ArrayBuffer'.
+          Types of property '[Symbol.toStringTag]' are incompatible.
+            Type '"SharedArrayBuffer"' is not assignable to type '"ArrayBuffer"'.
+src/simulation/customChips/busLogic.ts(26,13): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/digital/digitalGateEngine.ts(158,34): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/simulation/digital/digitalGateEngine.ts(159,13): error TS7022: 'gp' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+src/simulation/digital/digitalGateEngine.ts(159,34): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/simulation/digital/digitalGateEngine.ts(160,23): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/simulation/digital/digitalGateEngine.ts(163,5): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/simulation/displays/Uc8179Decoder.ts(72,11): error TS6133: 'winY1' is declared but its value is never read.
+src/simulation/Esp32Bridge.ts(376,12): error TS2678: Type '"esp32-c6"' is not comparable to type 'BoardKind'.
+src/simulation/HD44780Decoder.ts(114,11): error TS6133: 'shiftOnEntry' is declared but its value is never read.
+src/simulation/HD44780Decoder.ts(115,11): error TS6133: 'twoLine' is declared but its value is never read.
+src/simulation/HD44780Decoder.ts(132,11): error TS6133: 'fourBitMode' is declared but its value is never read.
+src/simulation/I2CBusManager.ts(160,10): error TS2352: Conversion of type 'I2CMaster' to type '{ eventHandler: TWIEventHandler; }' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property 'eventHandler' is missing in type 'I2CMaster' but required in type '{ eventHandler: TWIEventHandler; }'.
+src/simulation/I2CBusManager.ts(310,15): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/Interconnect.ts(75,6): error TS6196: 'BoardKindOrId' is declared but never used.
+src/simulation/parts/ComplexParts.ts(6,10): error TS6133: 'getADC' is declared but its value is never read.
+src/simulation/parts/LogicGateParts.ts(18,20): error TS6133: 'element' is declared but its value is never read.
+src/simulation/parts/LogicGateParts.ts(116,20): error TS6133: 'element' is declared but its value is never read.
+src/simulation/parts/LogicGateParts.ts(175,20): error TS6133: 'element' is declared but its value is never read.
+src/simulation/parts/LogicGateParts.ts(284,18): error TS6133: 'element' is declared but its value is never read.
+src/simulation/parts/MotorDriverParts.ts(40,18): error TS6133: 'element' is declared but its value is never read.
+src/simulation/PinTrace.ts(122,6): error TS6196: 'WireEnd' is declared but never used.
+src/simulation/PinTrace.ts(178,3): error TS6133: 'metadataId' is declared but its value is never read.
+src/simulation/RP2040Simulator.ts(119,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/RP2040Simulator.ts(120,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/RP2040Simulator.ts(136,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/RP2040Simulator.ts(147,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/RP2040Simulator.ts(1354,27): error TS2339: Property 'bitsPerChar' does not exist on type 'RPUART'.
+src/simulation/RP2040Simulator.ts(1503,20): error TS2345: Argument of type 'RPI2C' is not assignable to parameter of type 'I2CMaster & { onStart?: (() => void) | undefined; onConnect?: ((address: number, mode?: number | undefined) => void) | undefined; onWriteByte?: ((value: number) => void) | undefined; onReadByte?: ((ack?: boolean | undefined) => void) | undefined; onStop?: (() => void) | undefined; }'.
+  Type 'RPI2C' is not assignable to type '{ onStart?: (() => void) | undefined; onConnect?: ((address: number, mode?: number | undefined) => void) | undefined; onWriteByte?: ((value: number) => void) | undefined; onReadByte?: ((ack?: boolean | undefined) => void) | undefined; onStop?: (() => void) | undefined; }'.
+    Types of property 'onStart' are incompatible.
+      Type '(repeatedStart: boolean) => void' is not assignable to type '() => void'.
+        Target signature provides too few arguments. Expected 1 or more, but got 0.
+src/simulation/RP2040Simulator.ts(2012,27): error TS2339: Property 'nanosToNextAlarm' does not exist on type 'IClock'.
+src/simulation/RP2040Simulator.ts(2013,36): error TS2339: Property 'tick' does not exist on type 'IClock'.
+src/simulation/RP2040Simulator.ts(2018,22): error TS2339: Property 'tick' does not exist on type 'IClock'.
+src/simulation/spice/adapters/FakeSolverAdapter.ts(57,15): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(91,11): error TS6133: 'callbackPointers' is declared but its value is never read.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(119,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '(print: number, status: number, exit: number, data: number, dataInit: number, bg: number, arg: number) => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(122,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '(cmd: string) => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(123,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '(linesPtr: number) => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(124,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '(plot: string) => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(125,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '() => string'.
+  Type 'unknown' is not assignable to type 'string'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(126,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '(name: string) => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(127,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '() => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(128,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '() => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/adapters/NgSpiceNodeAdapter.ts(129,7): error TS2322: Type '(...args: unknown[]) => unknown' is not assignable to type '(path: string) => number'.
+  Type 'unknown' is not assignable to type 'number'.
+src/simulation/spice/boardPinGroups.ts(50,14): error TS2739: Type '{ default: { vcc: number; gnd: string[]; vcc_pins: string[]; }; 'arduino-uno': { vcc: number; gnd: string[]; vcc_pins: string[]; aux: { volts: number; pins: string[]; }; }; 'arduino-nano': { vcc: number; gnd: string[]; vcc_pins: string[]; aux: { ...; }; }; ... 24 more ...; 'aitewinrobot-esp32c3-supermini': { ...; }; }' is missing the following properties from type 'Record<AllBoardKinds, BoardPinGroup>': "raspberry-pi-zero", "raspberry-pi-1", "raspberry-pi-2"
+src/simulation/spice/CircuitSimulationService.ts(309,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/spice/CircuitSimulationService.ts(310,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/spice/CircuitSimulationService.ts(311,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/spice/CircuitSimulationService.ts(312,5): error TS1294: This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+src/simulation/spice/CircuitSimulationService.ts(661,39): error TS2352: Conversion of type '{ components: { id: string; metadataId: string; properties: Record<string, unknown>; }[]; wires: { id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }[]; boards: { ...; }[]; }' to type 'StoreSnapshot' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Types of property 'wires' are incompatible.
+    Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }[]' is not comparable to type 'Wire[]'.
+      Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; }' is missing the following properties from type 'Wire': waypoints, color
+src/simulation/spice/componentToSpice.ts(44,3): error TS6133: 'comp' is declared but its value is never read.
+src/simulation/spice/NetlistBuilder.ts(23,34): error TS6196: 'ComponentForSpice' is declared but never used.
+src/simulation/spice/NetlistBuilder.ts(23,53): error TS6196: 'BoardForSpice' is declared but never used.
+src/simulation/spice/runNetlist.ts(49,3): error TS2322: Type 'SolverPort | null' is not assignable to type 'SolverPort'.
+  Type 'null' is not assignable to type 'SolverPort'.
+src/simulation/spice/runNetlist.ts(167,9): error TS6133: 'rawVecs' is declared but its value is never read.
+src/simulation/verify/verifyFromStore.ts(14,15): error TS2459: Module '"../../store/useSimulatorStore"' declares 'BoardKind' locally, but it is not exported.
+src/simulation/verify/verifyFromStore.ts(64,9): error TS2322: Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; color: string; waypoints: { x: number; y: number; }[]; }[]' is not assignable to type 'Wire[]'.
+  Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; color: string; waypoints: { x: number; y: number; }[]; }' is not assignable to type 'Wire'.
+    Types of property 'start' are incompatible.
+      Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/store/useSimulatorStore.ts(81,3): error TS6133: 'SENSOR_CONTROLS' is declared but its value is never read.
+src/store/useSimulatorStore.ts(82,3): error TS6133: 'getSensorControl' is declared but its value is never read.
+src/store/useSimulatorStore.ts(1971,57): error TS2345: Argument of type '(set: { (partial: SimulatorState | Partial<SimulatorState> | ((state: SimulatorState) => SimulatorState | Partial<...>), replace?: false | undefined): void; (state: SimulatorState | ((state: SimulatorState) => SimulatorState), replace: true): void; }, get: () => SimulatorState) => { ...; }' is not assignable to parameter of type 'StateCreator<SimulatorState, [], []>'.
+  Type '(set: { (partial: SimulatorState | Partial<SimulatorState> | ((state: SimulatorState) => SimulatorState | Partial<...>), replace?: false | undefined): void; (state: SimulatorState | ((state: SimulatorState) => SimulatorState), replace: true): void; }, get: () => SimulatorState) => { ...; }' is not assignable to type '(setState: { (partial: SimulatorState | Partial<SimulatorState> | ((state: SimulatorState) => SimulatorState | Partial<...>), replace?: false | undefined): void; (state: SimulatorState | ((state: SimulatorState) => SimulatorState), replace: true): void; }, getState: () => SimulatorState, store: StoreApi<...>) => Sim...'.
+    Call signature return types '{ boards: BoardInstance[]; activeBoardId: string; rebuildEsp32Bridge: (boardId: string) => boolean; addBoard: (boardKind: BoardKind, x: number, y: number, explicitId?: string | undefined) => string; ... 100 more ...; clearBoardSerialOutput: (boardId: string) => void; }' and 'SimulatorState' are incompatible.
+      The types of 'simulator' are incompatible between these types.
+        Type 'ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim | null'.
+          Type 'ProBoardSimulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim | null'.
+            Type 'ProBoardSimulator' is missing the following properties from type 'RP2040Simulator': spiceDrivenInputs, rp2040, running, animationFrame, and 98 more.
+src/store/useSimulatorStore.ts(2178,38): error TS2345: Argument of type 'ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator' is not assignable to parameter of type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+  Type 'ProBoardSimulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+    Type 'ProBoardSimulator' is missing the following properties from type 'RP2040Simulator': spiceDrivenInputs, rp2040, running, animationFrame, and 98 more.
+src/store/useSimulatorStore.ts(2412,30): error TS2345: Argument of type 'ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator' is not assignable to parameter of type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+  Type 'ProBoardSimulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+    Type 'ProBoardSimulator' is missing the following properties from type 'RP2040Simulator': spiceDrivenInputs, rp2040, running, animationFrame, and 98 more.
+src/store/useSimulatorStore.ts(2482,39): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/store/useSimulatorStore.ts(3829,35): error TS2345: Argument of type 'ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator' is not assignable to parameter of type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+  Type 'ProBoardSimulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+    Type 'ProBoardSimulator' is missing the following properties from type 'RP2040Simulator': spiceDrivenInputs, rp2040, running, animationFrame, and 98 more.
+src/store/useSimulatorStore.ts(3836,13): error TS2345: Argument of type '(s: SimulatorState) => { boardType: BoardKind; simulator: ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator; ... 4 more ...; boards: BoardInstance[]; }' is not assignable to parameter of type 'SimulatorState | Partial<SimulatorState> | ((state: SimulatorState) => SimulatorState | Partial<SimulatorState>)'.
+  Type '(s: SimulatorState) => { boardType: BoardKind; simulator: ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator; ... 4 more ...; boards: BoardInstance[]; }' is not assignable to type '(state: SimulatorState) => SimulatorState | Partial<SimulatorState>'.
+    Type '{ boardType: BoardKind; simulator: ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator; ... 4 more ...; boards: BoardInstance[]; }' is not assignable to type 'SimulatorState | Partial<SimulatorState>'.
+      Type '{ boardType: BoardKind; simulator: ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator; ... 4 more ...; boards: BoardInstance[]; }' is not assignable to type 'Partial<SimulatorState>'.
+        Types of property 'simulator' are incompatible.
+          Type 'ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim | null | undefined'.
+            Type 'ProBoardSimulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim | null | undefined'.
+              Type 'ProBoardSimulator' is missing the following properties from type 'RP2040Simulator': spiceDrivenInputs, rp2040, running, animationFrame, and 98 more.
+src/store/useSimulatorStore.ts(3951,35): error TS2345: Argument of type 'ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator' is not assignable to parameter of type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+  Type 'ProBoardSimulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+    Type 'ProBoardSimulator' is missing the following properties from type 'RP2040Simulator': spiceDrivenInputs, rp2040, running, animationFrame, and 98 more.
+src/store/useSimulatorStore.ts(3957,15): error TS2322: Type 'ProBoardSimulator | AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim | null | undefined'.
+  Type 'ProBoardSimulator' is not assignable to type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim | null | undefined'.
+    Type 'ProBoardSimulator' is missing the following properties from type 'RP2040Simulator': spiceDrivenInputs, rp2040, running, animationFrame, and 98 more.
+src/store/useSimulatorStore.ts(4380,36): error TS2783: 'waypoints' is specified more than once, so this usage will be overwritten.
+src/store/useSimulatorStore.ts(4956,37): error TS2339: Property 'serialWrite' does not exist on type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+  Property 'serialWrite' does not exist on type 'PiBridgeShim'.
+src/store/useSimulatorStore.ts(5018,37): error TS2339: Property 'serialWrite' does not exist on type 'AVRSimulator | RP2040Simulator | RiscVSimulator | Esp32C3Simulator | PiBridgeShim | Esp32BridgeShim | Stm32BridgeShim'.
+  Property 'serialWrite' does not exist on type 'PiBridgeShim'.
+src/utils/exampleToBuildNetlistInput.ts(95,5): error TS2322: Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; color: string; waypoints: never[]; }[]' is not assignable to type 'Wire[]'.
+  Type '{ id: string; start: { componentId: string; pinName: string; }; end: { componentId: string; pinName: string; }; color: string; waypoints: never[]; }' is not assignable to type 'Wire'.
+    Types of property 'start' are incompatible.
+      Type '{ componentId: string; pinName: string; }' is missing the following properties from type 'WireEndpoint': x, y
+src/utils/firmwareLoader.ts(219,10): error TS6133: 'isRp2040Board' is declared but its value is never read.
+src/utils/firmwareLoader.ts(299,39): error TS2345: Argument of type 'ArrayBufferLike' is not assignable to parameter of type 'ArrayBuffer'.
+  Type 'SharedArrayBuffer' is not assignable to type 'ArrayBuffer'.
+    Types of property '[Symbol.toStringTag]' are incompatible.
+      Type '"SharedArrayBuffer"' is not assignable to type '"ArrayBuffer"'.
+src/utils/vlxFile.ts(33,32): error TS2307: Cannot find module '../types/component' or its corresponding type declarations.
+vite.config.ts(18,30): error TS6133: 'command' is declared but its value is never read.
