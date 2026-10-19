@@ -88,3 +88,31 @@ PartSimulationRegistry.register('raspberry-pi-3', {
     useSimulatorStore.getState().sendRemotePinEvent(pinName, state ? 1 : 0);
   },
 });
+const fanPinStates = new WeakMap<
+  HTMLElement,
+  { positive: boolean; negative: boolean }
+>();
+
+PartSimulationRegistry.register('pro-dc-motor', {
+  onPinStateChange: (
+    pinName: string,
+    state: boolean,
+    element: HTMLElement,
+  ) => {
+    let pins = fanPinStates.get(element);
+
+    if (!pins) {
+      pins = { positive: false, negative: false };
+      fanPinStates.set(element, pins);
+    }
+
+    if (pinName === '+') {
+      pins.positive = state;
+    } else if (pinName === '-') {
+      pins.negative = state;
+    }
+
+    const fan = element as HTMLElement & { isRunning: boolean };
+    fan.isRunning = pins.positive && !pins.negative;
+  },
+});
