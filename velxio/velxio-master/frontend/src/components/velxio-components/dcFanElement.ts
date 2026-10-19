@@ -94,8 +94,8 @@ if (!document.getElementById(FAN_STYLE_ID)) {
 }
 
 class VelxioDcFanElement extends HTMLElement {
-  private running = true;
-  private speed = 0.25;
+  private running = false;
+  private speed = 100;
   private root: ShadowRoot;
 
   static get observedAttributes() {
@@ -141,17 +141,19 @@ class VelxioDcFanElement extends HTMLElement {
   }
 
   private syncAttributes() {
-    if (this.hasAttribute('running')) {
-      this.running = this.getAttribute('running') !== 'false';
-    }
-    if (this.hasAttribute('speed')) {
-      this.speed = Math.max(
-        0.05,
-        Math.min(2, Number(this.getAttribute('speed')) || 0.25),
-      );
-    }
-    if (this.isConnected) this.render();
+  if (this.hasAttribute('running')) {
+    this.running = this.getAttribute('running') !== 'false';
   }
+
+  if (this.hasAttribute('speed')) {
+    const value = Number(this.getAttribute('speed'));
+    if (Number.isFinite(value)) {
+      this.speed = Math.max(0, Math.min(100, value));
+    }
+  }
+
+  if (this.isConnected) this.render();
+}
 
   private render() {
     this.root.innerHTML = `
@@ -166,7 +168,9 @@ class VelxioDcFanElement extends HTMLElement {
         .blade:nth-child(4) { transform:rotate(270deg); }
         .hub { position:absolute; width:17px; height:17px; left:25px; top:25px; border-radius:50%; background:#e2e8f0; border:3px solid #334155; z-index:2; }
         .status { position:absolute; bottom:-12px; width:100%; text-align:center; font:bold 10px monospace; color:#dc2626; }
-        .rotor.running { animation:spin ${this.speed}s linear infinite; }
+        .rotor.running {
+  animation: spin ${Math.max(0.1, 2 - (this.speed / 100) * 1.9)}s linear infinite;
+}
         .running + .hub { color:green; }
         @keyframes spin { to { transform:rotate(360deg); } }
       </style>
