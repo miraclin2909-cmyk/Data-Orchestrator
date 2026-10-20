@@ -1,4 +1,6 @@
+
 import { installSerialTap } from "../store/serialTap";
+
 export interface SensorReading {
   temperature: number;
   humidity: number;
@@ -32,15 +34,13 @@ const serialBuffers = new Map<string, string>();
 
 export function startMLSerialListener(): void {
   installSerialTap((boardId, chunk) => {
-    const text =
-      (serialBuffers.get(boardId) ?? "") + chunk;
-
+    const text = (serialBuffers.get(boardId) ?? "") + chunk;
     const lines = text.split(/\r?\n/);
     serialBuffers.set(boardId, lines.pop() ?? "");
 
     for (const line of lines) {
       const match = line.match(
-        /ML_BRIDGE_TEST:\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/
+        /Temperature:\s*(-?\d+(?:\.\d+)?)\s*C.*Humidity:\s*(-?\d+(?:\.\d+)?)/
       );
 
       if (!match) continue;
@@ -49,13 +49,20 @@ export function startMLSerialListener(): void {
       const humidity = Number(match[2]);
 
       void getMLPrediction({ temperature, humidity })
-        .then((prediction) => {
-          console.log("[Velxio ML]", {
-            boardId,
-            temperature,
-            humidity,
-            prediction,
-          });
+        .then(async (prediction) => {
+          const { getBoardPinManager } = await import(
+            "../store/useSimulatorStore"
+          );
+          const pm = getBoardPinManager(boardId);
+
+          pm?.triggerPinChange(17, prediction.fan, "mcu");
+          pm?.triggerPinChange(16, prediction.led, "mcu");
+
+          window.dispatchEvent(
+            new CustomEvent("velxio-ml-prediction", {
+              detail: { boardId, temperature, humidity, prediction },
+            })
+          );
         })
         .catch((error: unknown) => {
           console.error("[Velxio ML] Bridge request failed:", error);

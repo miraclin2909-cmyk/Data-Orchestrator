@@ -30,7 +30,13 @@
  */
 
 import type { BoardInstance } from '../types/board';
-import type { Component } from '../types/component';
+interface Component {
+  id: string;
+  metadataId: string;
+  x: number;
+  y: number;
+  properties: Record<string, unknown>;
+}
 import type { Wire } from '../types/wire';
 import { useEditorStore, chipFileGroupId } from '../store/useEditorStore';
 import { useSimulatorStore } from '../store/useSimulatorStore';
