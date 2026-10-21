@@ -1,0 +1,358 @@
+210:// can call setPinState / pinManager just like they would on a local simulator. ──
+218:  // flag and skip their direct setPinState seed for this board.
+278:    this.i2cLane = new RemoteI2cLane(bridge.boardId, bridge.boardKind);
+279:    this.uartLane = new RemoteUartLane(bridge.boardId, bridge.boardKind, (unit, bytes) =>
+283:      bridge.boardId,
+332:  setPinState(pin: number, state: boolean): void {
+359:    // setPinState is the model). Same gates as the scope: not for a pad the
+361:    this.pinManager.triggerPinChange(pin, state, 'external');
+372:   * ever had `setPinState`. So a custom chip on an ESP32 board was classified
+486:    const boardId = this.bridge.boardId;
+489:    const unpublish = registerSdImageReader(boardId, () => {
+498:        owner: `builtin:${boardId}:sd`,
+500:          sck: { kind: 'board', boardId, pin: pins.sck },
+503:            : { mosi: { kind: 'board' as const, boardId, pin: pins.mosi } }),
+506:            : { miso: { kind: 'board' as const, boardId, pin: pins.miso } }),
+507:          cs: { kind: 'board', boardId, pin: pins.cs },
+819:      driveInput: (pin, level) => this.setPinState(pin, level),
+839:                this.pinManager.hardResetPinStates();
+943:function makeLedcDutyHandler(boardId: string) {
+945:    const boardPm = pinManagerMap.get(boardId);
+946:    const router = signalRouterMap.get(boardId);
+959:function makePinPwmHandler(boardId: string) {
+961:    const boardPm = pinManagerMap.get(boardId);
+991:  boardId: string,
+994:  let set = boardWs2812Observers.get(boardId);
+997:    boardWs2812Observers.set(boardId, set);
+1002:    if (set.size === 0) boardWs2812Observers.delete(boardId);
+1015: *  - the legacy `ws2812-{boardId}-{channel}` DOM contract, kept because a
+1018:function makeWs2812Handler(boardId: string) {
+1021:      const shim = simulatorMap.get(boardId);
+1023:      boardWs2812Observers.get(boardId)?.forEach((fn) => fn(pin, pixels));
+1025:    const eventTarget = document.getElementById(`ws2812-${boardId}-${channel}`);
+1032:function makeGpioRoutingHandler(boardId: string) {
+1034:    signalRouterMap.get(boardId)?.updateRouting(routing.gpio, routing.signal_id);
+1038:function makeGpioRoutingClearHandler(boardId: string) {
+1040:    signalRouterMap.get(boardId)?.clearRouting(gpio);
+1044:function makePinPullHandler(boardId: string) {
+1048:    const pm = pinManagerMap.get(boardId);
+1060:      const sim = simulatorMap.get(boardId) as
+1061:        | { setPinState?: (pin: number, state: boolean) => void }
+1063:      sim?.setPinState?.(gpio, pull === 1);
+1112:    this.i2cLane = new RemoteI2cLane(bridge.boardId, bridge.boardKind);
+1113:    this.uartLane = new RemoteUartLane(bridge.boardId, bridge.boardKind, (unit, bytes) =>
+1117:      bridge.boardId,
+1150:  setPinState(pin: number, state: boolean): void {
+1159:    this.pinManager.triggerPinChange(pin, state, 'external');
+1283:        driveInput: (pin, level) => this.setPinState(pin, level),
+1351:export const getBoardPinManager = (id: string) => pinManagerMap.get(id);
+1357:export async function piSyncAndRunScript(boardId: string, boardKind: string): Promise<void> {
+1358:  const bridge = bridgeMap.get(boardId);
+1362:  const board = useSimulatorStore.getState().boards.find((b) => b.id === boardId);
+1363:  const groupId = board?.activeFileGroupId ?? `group-${boardId}`;
+1392:export async function piRerunScript(boardId: string, boardKind: string): Promise<void> {
+1393:  const bridge = bridgeMap.get(boardId);
+1397:  await piSyncAndRunScript(boardId, boardKind);
+1603:  activeBoardId: string | null;
+1611:  rebuildEsp32Bridge: (boardId: string) => boolean;
+1612:  removeBoard: (boardId: string) => void;
+1622:    activeBoardId: string | null;
+1624:  updateBoard: (boardId: string, updates: Partial<BoardInstance>) => void;
+1626:  rotateBoard: (boardId: string) => void;
+1630:  copyBoard: (boardId: string) => void;
+1632:  /** Place what canvasClipboard holds: a board to the right of `nearBoardId`
+1635:  pasteClipboard: (nearBoardId?: string) => { kind: 'board' | 'component'; id: string } | null;
+1636:  setBoardPosition: (pos: { x: number; y: number }, boardId?: string) => void;
+1637:  setActiveBoardId: (boardId: string) => void;
+1642:  compileBoardProgram: (boardId: string, program: string, extras?: { uf2?: string | null }) => void;
+1644:    boardId: string,
+1647:  setBoardLanguageMode: (boardId: string, mode: LanguageMode) => void;
+1648:  startBoard: (boardId: string) => void;
+1649:  stopBoard: (boardId: string) => void;
+1650:  resetBoard: (boardId: string) => void;
+1652:  // ── Legacy single-board API (reads/writes activeBoardId board) ───────────
+1653:  /** @deprecated use boards[]/activeBoardId directly */
+1657:  /** @deprecated use getBoardSimulator(activeBoardId) */
+1667:  /** @deprecated use getBoardPinManager(activeBoardId) */
+1685:  /** @deprecated use getBoardBridge(activeBoardId) */
+1707:  esp32CrashBoardId: string | null;
+1826:  serialWriteToBoard: (boardId: string, text: string) => void;
+1828:  setBoardSerialLink: (boardId: string, link: SerialLink | null) => void;
+1830:  clearBoardSerialOutput: (boardId: string) => void;
+1903:      if (s.activeBoardId === b.id) globalOut += chunk;
+1916:export function appendHardwareSerial(boardId: string, chunk: string): void {
+1917:  appendSerial(boardId, chunk);
+1927:export function appendSimulatorNote(boardId: string, text: string): void {
+1933:  const onSerial = bridgeMap.get(boardId)?.onSerialData;
+1935:  else appendSerial(boardId, line);
+1976:  function getOscilloscopeCallback(boardId: string) {
+1983:        if (ch.boardId === boardId && ch.pin === pin) pushSample(ch.id, timeMs, state);
+1994:        if (ch.kind === 'digital' && ch.boardId === boardId && ch.pin === pin) return true;
+2036:        const isActive = s.activeBoardId === id;
+2048:      reportBoardRunRefused({ boardId: id, kind: boardKind, message, code });
+2071:        const isActive = s.activeBoardId === id;
+2081:      if (boardPm) boardPm.triggerPinChange(gpioPin, state, 'mcu');
+2088:      set({ esp32CrashBoardId: id });
+2093:        const isActive = s.activeBoardId === id;
+2136:    // can call setPinState / access pinManager on ESP32 boards.
+2170:        const isActive = s.activeBoardId === INITIAL_BOARD_ID;
+2186:    activeBoardId: INITIAL_BOARD_ID,
+2188:    rebuildEsp32Bridge: (boardId: string): boolean => {
+2189:      const board = get().boards.find((b) => b.id === boardId);
+2190:      const pm = pinManagerMap.get(boardId);
+2193:      const old = esp32BridgeMap.get(boardId);
+2201:      wireEsp32Board(boardId, board.boardKind, pm);
+2211:      if (get().activeBoardId === boardId) {
+2213:          simulator: (simulatorMap.get(boardId) ?? null) as never,
+2214:          pinManager: pinManagerMap.get(boardId) ?? legacyPinManager,
+2259:          if (boardPm) boardPm.triggerPinChange(gpioPin, state, 'mcu');
+2305:            const isActive = s.activeBoardId === id;
+2314:          boardId: id,
+2369:          if (boardPm) boardPm.triggerPinChange(gpioPin, state, 'mcu');
+2382:            const isActive = s.activeBoardId === id;
+2405:              const isActive = s.activeBoardId === id;
+2469:        const stillExists = s.boards.some((b) => b.id === s.activeBoardId);
+2470:        const nextActive = stillExists ? s.activeBoardId : id;
+2471:        // Keep `simulator` in sync with `activeBoardId`. setActiveBoardId is the
+2481:          activeBoardId: nextActive,
+2506:      // setActiveBoardId (which is the only other place that syncs the editor
+2510:      if (get().activeBoardId === id) {
+2528:    removeBoard: (boardId: string) => {
+2529:      const board = get().boards.find((b) => b.id === boardId);
+2530:      getBoardSimulator(boardId)?.stop();
+2531:      simulatorMap.delete(boardId);
+2532:      pinManagerMap.delete(boardId);
+2533:      signalRouterMap.delete(boardId);
+2534:      const bridge = getBoardBridge(boardId);
+2537:        bridgeMap.delete(boardId);
+2539:      const esp32Bridge = getEsp32Bridge(boardId);
+2542:        esp32BridgeMap.delete(boardId);
+2544:      const stm32Bridge = getStm32Bridge(boardId);
+2547:        stm32BridgeMap.delete(boardId);
+2550:      const rpSim = getBoardSimulator(boardId);
+2554:        const boards = s.boards.filter((b) => b.id !== boardId);
+2555:        const activeBoardId =
+2556:          s.activeBoardId === boardId ? (boards[0]?.id ?? null) : s.activeBoardId;
+2559:          (w) => w.start.componentId !== boardId && w.end.componentId !== boardId,
+2562:        // board's run state (see startBoard/stopBoard/setActiveBoardId's
+2564:        // `activeBoardId` above, but used to leave `running` stale — so
+2570:        const nextActive = activeBoardId
+2571:          ? (boards.find((b) => b.id === activeBoardId) ?? null)
+2574:        return { boards, activeBoardId, wires, running };
+2580:      // The removed board may have been the active one; activeBoardId was just
+2584:      const newActiveId = get().activeBoardId;
+2590:      icUnbindBoard(boardId);
+2594:    updateBoard: (boardId: string, updates: Partial<BoardInstance>) => {
+2596:        boards: s.boards.map((b) => (b.id === boardId ? { ...b, ...updates } : b)),
+2600:    rotateBoard: (boardId: string) => {
+2601:      const board = get().boards.find((b) => b.id === boardId);
+2605:        boards: s.boards.map((b) => (b.id === boardId ? { ...b, rotation } : b)),
+2612:    copyBoard: (boardId: string) => {
+2613:      const board = get().boards.find((b) => b.id === boardId);
+2658:    pasteClipboard: (nearBoardId?: string) => {
+2688:      const near = nearBoardId ? get().boards.find((b) => b.id === nearBoardId) : undefined;
+2759:      get().setActiveBoardId(id);
+2770:        setActiveBoardId,
+2824:        payload.activeBoardId && get().boards.find((b) => b.id === payload.activeBoardId)
+2825:          ? payload.activeBoardId
+2827:      if (targetActive) setActiveBoardId(targetActive);
+2837:    setBoardPosition: (pos: { x: number; y: number }, boardId?: string) => {
+2838:      const id = boardId ?? get().activeBoardId ?? INITIAL_BOARD_ID;
+2840:        boardPosition: s.activeBoardId === id ? pos : s.boardPosition,
+2845:    setActiveBoardId: (boardId: string) => {
+2846:      const board = get().boards.find((b) => b.id === boardId);
+2849:        activeBoardId: boardId,
+2853:        simulator: simulatorMap.get(boardId) ?? null,
+2854:        pinManager: pinManagerMap.get(boardId) ?? legacyPinManager,
+2861:          bridgeMap.get(boardId)?.connected ?? esp32BridgeMap.get(boardId)?.connected ?? false,
+2868:    compileBoardProgram: (boardId: string, program: string, extras?: { uf2?: string | null }) => {
+2869:      const board = get().boards.find((b) => b.id === boardId);
+2871:        console.warn(`[compileBoardProgram] board not found: ${boardId}`);
+2875:        `[compileBoardProgram] ${boardId} kind=${board.boardKind} programLen=${program?.length ?? 0}`,
+2882:        const esp32Bridge = getEsp32Bridge(boardId);
+2886:        getStm32Bridge(boardId)?.loadFirmware(program);
+2890:        const sim = getBoardSimulator(boardId);
+2895:            console.error(`[Esp32C3Simulator] loadFlashImage failed for ${boardId}:`, err);
+2900:        const sim = getBoardSimulator(boardId);
+2917:                boardId,
+2921:            console.error(`compileBoardProgram(${boardId}):`, err);
+2938:          b.id === boardId
+2942:        const isActive = s.activeBoardId === boardId;
+2951:      boardId: string,
+2954:      const board = get().boards.find((b) => b.id === boardId);
+2962:        const esp32Bridge = getEsp32Bridge(boardId);
+3204:        const sim = getBoardSimulator(boardId) as {
+3217:        sim.attachPioPeripheral?.(board.boardKind, boardId);
+3223:          b.id === boardId ? { ...b, compiledProgram: 'micropython-loaded', compiledUf2: null } : b,
+3225:        const isActive = s.activeBoardId === boardId;
+3233:    setBoardLanguageMode: (boardId: string, mode: LanguageMode) => {
+3234:      const board = get().boards.find((b) => b.id === boardId);
+3242:      if (board.running) get().stopBoard(boardId);
+3253:          b.id === boardId
+3279:    startBoard: (boardId: string) => {
+3281:      const board = get().boards.find((b) => b.id === boardId);
+3291:            b.id === boardId ? { ...b, wifiStatus: undefined, bleStatus: undefined } : b,
+3307:        const decision = decideEngine(boardId, board.enginePinned);
+3313:          `[pi] start ${boardId}: engine=${decision.engine} pinned=${board.enginePinned ?? 'auto'} — ${decision.reason}`,
+3321:            b.id === boardId ? { ...b, engineMode: decision.engine, running: true } : b,
+3324:          ...(s.activeBoardId === boardId ? { running: true } : {}),
+3328:          void instant?.run(boardId).finally(() => {
+3330:              const boards = s.boards.map((b) => (b.id === boardId ? { ...b, running: false } : b));
+3331:              const isActive = s.activeBoardId === boardId;
+3336:          const bridge = getBoardBridge(boardId);
+3344:              `[${boardKindOfBoard(board)}] no bridge for ${boardId}: the guest cannot start`,
+3347:              boards: s.boards.map((b) => (b.id === boardId ? { ...b, running: false } : b)),
+3354:        const esp32Bridge = getEsp32Bridge(boardId);
+3370:            const gpioPin = traceBoardGpio(traceState, comp.id, sensorDef.dataPinName, boardId);
+3388:                const extraGpio = traceBoardGpio(traceState, comp.id, compPinName, boardId);
+3475:            simulatorMap.get(boardId) as { syncBuiltinSdCard?: () => void } | undefined
+3487:        const stm32Bridge = getStm32Bridge(boardId);
+3519:        const rpSim = getBoardSimulator(boardId);
+3546:          b.id === boardId ? { ...b, running: true, serialMonitorOpen: true } : b,
+3548:        const isActive = s.activeBoardId === boardId;
+3553:    stopBoard: (boardId: string) => {
+3554:      const board = get().boards.find((b) => b.id === boardId);
+3572:      getBoardPinManager(boardId)?.hardResetPinStates();
+3575:        if (board.engineMode === 'instant') getInstantEngine()?.stop(boardId);
+3576:        else getBoardBridge(boardId)?.disconnect();
+3579:        getBoardSimulator(boardId)?.stop();
+3581:        getEsp32Bridge(boardId)?.disconnect();
+3583:        getStm32Bridge(boardId)?.disconnect();
+3590:        getBoardSimulator(boardId)?.reset();
+3594:        const boards = s.boards.map((b) => (b.id === boardId ? { ...b, running: false } : b));
+3595:        const isActive = s.activeBoardId === boardId;
+3603:    resetBoard: (boardId: string) => {
+3604:      const board = get().boards.find((b) => b.id === boardId);
+3609:        const esp32Bridge = getEsp32Bridge(boardId);
+3615:        const sim = getBoardSimulator(boardId);
+3623:          getBoardPinManager(boardId)?.hardResetPinStates();
+3635:                  b.id === boardId
+3639:                const isActive = s.activeBoardId === boardId;
+3649:          b.id === boardId
+3653:        const isActive = s.activeBoardId === boardId;
+3722:    esp32CrashBoardId: null,
+3723:    dismissEsp32Crash: () => set({ esp32CrashBoardId: null }),
+3726:      const { activeBoardId, running, stopSimulation } = get();
+3729:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+3730:      const pm = getBoardPinManager(boardId) ?? legacyPinManager;
+3733:      getBoardSimulator(boardId)?.stop();
+3734:      simulatorMap.delete(boardId);
+3735:      getEsp32Bridge(boardId)?.disconnect();
+3736:      esp32BridgeMap.delete(boardId);
+3745:        if (!uart) appendSerial(boardId, ch);
+3750:        const bridge = createEsp32Bridge(boardId, type as BoardKind);
+3753:          const boardPm = pinManagerMap.get(boardId);
+3754:          if (boardPm) boardPm.triggerPinChange(gpioPin, state, 'mcu');
+3756:        bridge.onPinChangeWithTime = getOscilloscopeCallback(boardId);
+3758:          set({ esp32CrashBoardId: boardId });
+3762:            const boards = s.boards.map((b) => (b.id === boardId ? { ...b, running: false } : b));
+3763:            const isActive = s.activeBoardId === boardId;
+3767:        signalRouterMap.set(boardId, new SignalRouter());
+3768:        bridge.onLedcDuty = makeLedcDutyHandler(boardId);
+3769:        bridge.onPinPwm = makePinPwmHandler(boardId);
+3770:        bridge.onGpioRouting = makeGpioRoutingHandler(boardId);
+3771:        bridge.onGpioRoutingClear = makeGpioRoutingClearHandler(boardId);
+3772:        bridge.onPinPull = makePinPullHandler(boardId);
+3778:          pinManagerMap.get(boardId)?.setPinDirection(gpioPin, dir);
+3781:        bridge.onWs2812Update = makeWs2812Handler(boardId);
+3782:        esp32BridgeMap.set(boardId, bridge);
+3785:        simulatorMap.set(boardId, shim);
+3790:        icReensureSerialHooks(boardId);
+3800:            b.id === boardId
+3821:                b.id === boardId
+3827:          getOscilloscopeCallback(boardId),
+3829:        simulatorMap.set(boardId, sim);
+3834:        icReensureSerialHooks(boardId);
+3844:            b.id === boardId
+3862:      const { boardType, activeBoardId } = get();
+3863:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+3864:      const pm = getBoardPinManager(boardId) ?? legacyPinManager;
+3875:      const existingSim = getBoardSimulator(boardId);
+3878:      getEsp32Bridge(boardId)?.disconnect();
+3879:      esp32BridgeMap.delete(boardId);
+3888:        if (!uart) appendSerial(boardId, ch);
+3893:        const bridge = createEsp32Bridge(boardId, boardType as BoardKind);
+3896:          const boardPm = pinManagerMap.get(boardId);
+3897:          if (boardPm) boardPm.triggerPinChange(gpioPin, state, 'mcu');
+3899:        bridge.onPinChangeWithTime = getOscilloscopeCallback(boardId);
+3901:          set({ esp32CrashBoardId: boardId });
+3905:            const boards = s.boards.map((b) => (b.id === boardId ? { ...b, running: false } : b));
+3906:            const isActive = s.activeBoardId === boardId;
+3910:        signalRouterMap.set(boardId, new SignalRouter());
+3911:        bridge.onLedcDuty = makeLedcDutyHandler(boardId);
+3912:        bridge.onPinPwm = makePinPwmHandler(boardId);
+3913:        bridge.onGpioRouting = makeGpioRoutingHandler(boardId);
+3914:        bridge.onGpioRoutingClear = makeGpioRoutingClearHandler(boardId);
+3915:        bridge.onPinPull = makePinPullHandler(boardId);
+3921:          pinManagerMap.get(boardId)?.setPinDirection(gpioPin, dir);
+3924:        bridge.onWs2812Update = makeWs2812Handler(boardId);
+3925:        esp32BridgeMap.set(boardId, bridge);
+3928:        simulatorMap.set(boardId, shim);
+3933:        icReensureSerialHooks(boardId);
+3943:                b.id === boardId
+3949:          getOscilloscopeCallback(boardId),
+3951:        simulatorMap.set(boardId, sim);
+3956:        icReensureSerialHooks(boardId);
+3963:      const { activeBoardId } = get();
+3964:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+3965:      const sim = getBoardSimulator(boardId);
+3980:      const { activeBoardId } = get();
+3981:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+3982:      const sim = getBoardSimulator(boardId);
+3997:      const { activeBoardId } = get();
+3998:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+3999:      get().startBoard(boardId);
+4013:      const { activeBoardId } = get();
+4014:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+4015:      get().stopBoard(boardId);
+4019:      const { activeBoardId } = get();
+4020:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+4021:      get().resetBoard(boardId);
+4038:      const boardId = clientId;
+4039:      let bridge = getBoardBridge(boardId);
+4041:        bridge = new RaspberryPi3Bridge(boardId);
+4042:        bridge.onSerialData = (ch) => appendSerial(boardId, ch);
+4045:          const sim = getBoardSimulator(get().activeBoardId ?? INITIAL_BOARD_ID);
+4057:            if (!isNaN(pinNum)) sim.setPinState(pinNum, state);
+4060:        bridgeMap.set(boardId, bridge);
+4067:      const { activeBoardId } = get();
+4068:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+4069:      getBoardBridge(boardId)?.disconnect();
+4074:      const { activeBoardId } = get();
+4075:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+4076:      getBoardBridge(boardId)?.sendPinEvent(parseInt(pin, 10), state === 1);
+4932:      const { activeBoardId } = get();
+4933:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+4934:      const board = get().boards.find((b) => b.id === boardId);
+4942:      const bytes = applySerialWireTransmit(boardId, new TextEncoder().encode(text));
+4944:        const bridge = getBoardBridge(boardId);
+4949:        const esp32Bridge = getEsp32Bridge(boardId);
+4956:        getBoardSimulator(boardId)?.serialWrite(latin1);
+4961:      const { activeBoardId } = get();
+4962:      const boardId = activeBoardId ?? INITIAL_BOARD_ID;
+4965:        boards: s.boards.map((b) => (b.id === boardId ? { ...b, serialOutput: '' } : b)),
+4969:    setBoardSerialLink: (boardId: string, link: SerialLink | null) => {
+4971:        const prev = s.boards.find((b) => b.id === boardId)?.serialLink;
+4986:          b.id === boardId
+4990:        const isActive = s.activeBoardId === boardId;
+4995:    serialWriteToBoard: (boardId: string, text: string) => {
+4996:      const board = get().boards.find((b) => b.id === boardId);
+5000:      const hardwareTx = getSerialTxInterceptor(boardId);
+5006:        const bridge = getBoardBridge(boardId);
+5013:        const esp32Bridge = getEsp32Bridge(boardId);
+5018:        getBoardSimulator(boardId)?.serialWrite(text);
+5022:    clearBoardSerialOutput: (boardId: string) => {
+5023:      const isActive = get().activeBoardId === boardId;
+5026:        boards: s.boards.map((b) => (b.id === boardId ? { ...b, serialOutput: '' } : b)),
+5103:  const { boards, activeBoardId } = useSimulatorStore.getState();
+5104:  return boards.find((b) => b.id === activeBoardId) ?? null;
+5116:  getBoardPinManager: (id: string) => pinManagerMap.get(id),
+5182:busRegistry.onSpiMapChange((boardId) => {
+5183:  const sim = simulatorMap.get(boardId) as { pushBusMap?: () => void } | undefined;
+5191:busRegistry.onI2cMapChange((boardId) => {
+5192:  const sim = simulatorMap.get(boardId) as { pushI2cMap?: () => void } | undefined;
+5198:busRegistry.onUartMapChange((boardId) => {
+5199:  const sim = simulatorMap.get(boardId) as { pushUartMap?: () => void } | undefined;
+5206:busRegistry.onSpiAttrsChange((boardId, owner, attrs) => {
+5207:  const sim = simulatorMap.get(boardId) as
+5214:  appendSimulatorNote(d.boardId ?? st.activeBoardId ?? INITIAL_BOARD_ID, d.message);
