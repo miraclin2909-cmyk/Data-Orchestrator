@@ -1,3 +1,4 @@
+
 #include <DHT.h>
 
 #define DHT_PIN 7
@@ -39,25 +40,6 @@ void loop() {
   Serial.print(" C   Humidity: ");
   Serial.print(humidity, 1);
   Serial.println(" %");
-
-  // Start with fan and LED OFF
-  digitalWrite(FAN_PIN, LOW);
-  digitalWrite(LED_PIN, LOW);
-
-  if (temperature >= 55) {
-    digitalWrite(FAN_PIN, HIGH);
-    digitalWrite(LED_PIN, HIGH);
-
-    Serial.println("DANGER! Fan ON | LED ON");
-  }
-  else if (temperature >= 45) {
-    digitalWrite(FAN_PIN, HIGH);
-
-    Serial.println("WARNING! Fan ON | LED OFF");
-  }
-  else {
-    Serial.println("NORMAL! Fan OFF | LED OFF");
-  }
 
   Serial.println("----------------------------");
 }

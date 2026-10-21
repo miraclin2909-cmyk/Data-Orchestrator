@@ -34,6 +34,7 @@ import { ElectricalOverlay } from '../analog-ui/ElectricalOverlay';
 import { BoardOnCanvas } from './BoardOnCanvas';
 import { boardSize, normalizeRotation } from '../../utils/boardGeometry';
 import { BoardDock } from './BoardDock';
+import { MLPredictionPanel } from './MLPredictionPanel';
 import { PartSimulationRegistry } from '../../simulation/parts';
 import { PROPERTY_CHANGE_EVENT, type PropertyChangeDetail } from '../../simulation/parts/partUtils';
 import { mountDigitalGateEngine } from '../../simulation/digital/digitalGateController';
@@ -2905,7 +2906,7 @@ export const SimulatorCanvas = ({ headerSlot }: SimulatorCanvasProps = {}) => {
           </button>
         </div>
       )}
-
+      <MLPredictionPanel />
       {/* Main Canvas */}
       <div className="simulator-canvas">
         {(() => {
