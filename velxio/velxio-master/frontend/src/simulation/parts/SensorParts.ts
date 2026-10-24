@@ -186,13 +186,96 @@ PartSimulationRegistry.register('gas-sensor', {
     unsubscribers.push(() => element.removeEventListener('input', onInput));
 
     registerSensorUpdate(componentId, (values) => {
-      if ('gasLevel' in values && pinAOUT !== null) {
-        setAdcVoltage(simulator, pinAOUT, ((values.gasLevel as number) / 1023) * 5.0);
-      }
-    });
+  if ('gasLevel' in values) {
+    const level = Math.max(
+      0,
+      Math.min(1023, Number(values.gasLevel) || 0)
+    );
+
+    if (pinAOUT !== null) {
+      setAdcVoltage(simulator, pinAOUT, (level / 1023) * 5.0);
+    }
+
+    window.dispatchEvent(
+      new CustomEvent("velxio-sensor-reading", {
+        detail: {
+          componentId,
+          sensorType: "gas",
+          value: level,
+        },
+      })
+    );
+  }
+});
 
     return () => {
       unsubscribers.forEach((u) => u());
+      unregisterSensorUpdate(componentId);
+    };
+  },
+});
+
+PartSimulationRegistry.register('pro-smoke-sensor', {
+  attachEvents: (element, simulator, getArduinoPinHelper, componentId) => {
+    const pinAO = getArduinoPinHelper('AO');
+    const pinDO = getArduinoPinHelper('DO');
+    const pinManager = (simulator as any).pinManager;
+    const el = element as any;
+    const unsubscribers: (() => void)[] = [];
+
+    const getSmokeLevel = () =>
+      Math.max(0, Math.min(100, Number(el.smoke ?? el.getAttribute('smoke-level')) || 0));
+
+    const updateOutputs = (level: number) => {
+      const smoke = Math.max(0, Math.min(100, level));
+
+      // AO: smoke level converted to 0–5 V.
+      if (pinAO !== null) {
+        setAdcVoltage(simulator, pinAO, (smoke / 100) * 5.0);
+      }
+
+      // DO: HIGH at 60% smoke or above.
+      if (pinDO !== null && pinManager) {
+        pinManager.setPinState?.(pinDO, smoke >= 60);
+      }
+
+      el.alarmState = smoke >= 60;
+    };
+
+    updateOutputs(getSmokeLevel());
+    window.dispatchEvent(
+  new CustomEvent("velxio-sensor-reading", {
+    detail: {
+      componentId,
+      sensorType: "smoke",
+      value: getSmokeLevel(),
+    },
+  })
+);
+    registerSensorUpdate(componentId, (values) => {
+  if ('smokeLevel' in values) {
+    const level = Math.max(
+      0,
+      Math.min(100, Number(values.smokeLevel) || 0)
+    );
+
+    el.smoke = level;
+    updateOutputs(level);
+
+    window.dispatchEvent(
+      new CustomEvent("velxio-sensor-reading", {
+        detail: {
+          componentId,
+          sensorType: "smoke",
+          value: level,
+        },
+      })
+    );
+  }
+});
+
+    return () => {
+      unsubscribers.forEach((unsubscribe) => unsubscribe());
       unregisterSensorUpdate(componentId);
     };
   },

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 interface MLPrediction {
@@ -14,35 +13,333 @@ interface PredictionEvent {
   prediction: MLPrediction;
 }
 
+interface SensorReading {
+  componentId: string;
+  sensorType: "smoke" | "gas";
+  value: number;
+}
+
+const COLORS = {
+  bg: "#090E14",
+  panel: "#101923",
+  border: "#243442",
+  text: "#E8F3FA",
+  muted: "#7891A2",
+  cyan: "#45DDF5",
+  green: "#49E0AD",
+  amber: "#F2B85C",
+  red: "#FF7078",
+};
+
+function riskColor(risk: string) {
+  const value = risk.toUpperCase();
+  if (value === "CRITICAL") return COLORS.red;
+  if (value === "WARNING") return COLORS.amber;
+  return COLORS.green;
+}
+
+function MetricCard({
+  label,
+  value,
+  unit,
+  color,
+}: {
+  label: string;
+  value: string | number;
+  unit?: string;
+  color: string;
+}) {
+  return (
+    <div
+      style={{
+        minWidth: 0,
+        padding: 13,
+        background: COLORS.panel,
+        border: `1px solid ${COLORS.border}`,
+        borderRadius: 12,
+      }}
+    >
+      <div
+        style={{
+          color: COLORS.muted,
+          fontSize: 10,
+          letterSpacing: 1.3,
+          fontWeight: 700,
+        }}
+      >
+        {label}
+      </div>
+
+      <div
+        style={{
+          color,
+          fontSize: 25,
+          fontWeight: 800,
+          marginTop: 8,
+          overflowWrap: "anywhere",
+        }}
+      >
+        {value}
+        {unit && (
+          <span style={{ fontSize: 12, marginLeft: 4, fontWeight: 600 }}>
+            {unit}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LevelBar({
+  value,
+  max,
+  color,
+}: {
+  value: number;
+  max: number;
+  color: string;
+}) {
+  const percentage = Math.max(0, Math.min(100, (value / max) * 100));
+
+  return (
+    <div
+      style={{
+        height: 5,
+        background: "#263440",
+        borderRadius: 10,
+        overflow: "hidden",
+        marginTop: 9,
+      }}
+    >
+      <div
+        style={{
+          height: "100%",
+          width: `${percentage}%`,
+          background: color,
+          borderRadius: 10,
+          transition: "width 180ms ease",
+        }}
+      />
+    </div>
+  );
+}
+
 export function MLPredictionPanel() {
   const [latest, setLatest] = useState<PredictionEvent | null>(null);
   const [error, setError] = useState("");
 
+  const [sensorReadings, setSensorReadings] = useState<
+    Record<string, SensorReading>
+  >({});
+
   useEffect(() => {
     const handlePrediction = (event: Event) => {
-      const customEvent = event as CustomEvent<PredictionEvent>;
-      setLatest(customEvent.detail);
+      const detail = (event as CustomEvent<PredictionEvent>).detail;
+
+      if (!detail?.prediction) return;
+
+      setLatest(detail);
       setError("");
     };
 
     const handleError = () => {
-      setError("Waiting for a successful ML prediction...");
+      setError("Unable to receive an ML prediction.");
     };
 
-    window.addEventListener(
-      "velxio-ml-prediction",
-      handlePrediction
-    );
+    window.addEventListener("velxio-ml-prediction", handlePrediction);
     window.addEventListener("velxio-ml-error", handleError);
 
     return () => {
-      window.removeEventListener(
-        "velxio-ml-prediction",
-        handlePrediction
-      );
+      window.removeEventListener("velxio-ml-prediction", handlePrediction);
       window.removeEventListener("velxio-ml-error", handleError);
     };
   }, []);
+
+  useEffect(() => {
+    const handleSensorReading = (event: Event) => {
+      const reading = (event as CustomEvent<SensorReading>).detail;
+
+      if (
+        !reading ||
+        (reading.sensorType !== "smoke" &&
+          reading.sensorType !== "gas") ||
+        typeof reading.value !== "number" ||
+        !Number.isFinite(reading.value)
+      ) {
+        return;
+      }
+
+      setSensorReadings((previous) => ({
+        ...previous,
+        [`${reading.sensorType}:${reading.componentId}`]: reading,
+      }));
+    };
+
+    window.addEventListener("velxio-sensor-reading", handleSensorReading);
+
+    return () => {
+      window.removeEventListener(
+        "velxio-sensor-reading",
+        handleSensorReading
+      );
+    };
+  }, []);
+
+  const allSensors = Object.values(sensorReadings);
+
+  const smokeSensors = allSensors.filter(
+    (sensor) => sensor.sensorType === "smoke"
+  );
+
+  const gasSensors = allSensors.filter(
+    (sensor) => sensor.sensorType === "gas"
+  );
+
+  const sectionStyle = {
+    color: COLORS.muted,
+    fontSize: 10,
+    fontWeight: 800,
+    letterSpacing: 1.7,
+    marginBottom: 10,
+  } as const;
+
+  const outputRow = (
+    label: string,
+    active: boolean,
+    symbol: string
+  ) => (
+    <div
+      key={label}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "11px 12px",
+        marginTop: 7,
+        borderRadius: 9,
+        background: active ? "rgba(73,224,173,0.07)" : "#0C131B",
+        border: `1px solid ${
+          active ? "rgba(73,224,173,0.28)" : COLORS.border
+        }`,
+      }}
+    >
+      <span
+        style={{
+          color: active ? COLORS.green : COLORS.muted,
+          fontSize: 17,
+        }}
+      >
+        {symbol}
+      </span>
+
+      <span
+        style={{
+          flex: 1,
+          color: COLORS.text,
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: 0.5,
+        }}
+      >
+        {label}
+      </span>
+
+      <span
+        style={{
+          color: active ? COLORS.green : COLORS.muted,
+          fontSize: 10,
+          fontWeight: 800,
+        }}
+      >
+        {active ? "ON" : "OFF"}
+      </span>
+    </div>
+  );
+
+  const sensorCard = (
+    title: string,
+    sensors: SensorReading[],
+    max: number,
+    color: string
+  ) => (
+    <div
+      key={title}
+      style={{
+        padding: 12,
+        minWidth: 0,
+        background: COLORS.panel,
+        border: `1px solid ${COLORS.border}`,
+        borderRadius: 11,
+      }}
+    >
+      <div
+        style={{
+          color: COLORS.muted,
+          fontSize: 10,
+          fontWeight: 800,
+          letterSpacing: 1,
+        }}
+      >
+        {title}
+      </div>
+
+      {sensors.length === 0 ? (
+        <div
+          style={{
+            color: "#647A89",
+            fontSize: 11,
+            marginTop: 12,
+            lineHeight: 1.5,
+          }}
+        >
+          Waiting for sensor input
+        </div>
+      ) : (
+        sensors.map((sensor) => (
+          <div key={sensor.componentId} style={{ marginTop: 12 }}>
+            <div
+              style={{
+                color,
+                fontSize: 23,
+                fontWeight: 800,
+                overflowWrap: "anywhere",
+              }}
+            >
+              {sensor.value}
+              <span
+                style={{
+                  color: COLORS.muted,
+                  fontSize: 10,
+                  fontWeight: 600,
+                }}
+              >
+                {" "}
+                / {max}
+              </span>
+            </div>
+
+            <LevelBar
+              value={sensor.value}
+              max={max}
+              color={color}
+            />
+
+            <div
+              title={sensor.componentId}
+              style={{
+                color: "#647A89",
+                fontSize: 9,
+                marginTop: 7,
+                overflowWrap: "anywhere",
+              }}
+            >
+              Sensor: {sensor.componentId}
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  );
 
   return (
     <div
@@ -51,162 +348,253 @@ export function MLPredictionPanel() {
         top: 60,
         right: 16,
         zIndex: 1000,
-        width: 310,
-        padding: 18,
+        width: 330,
+        maxWidth: "calc(100% - 32px)",
+        maxHeight: "calc(100% - 80px)",
+        overflowY: "auto",
+        boxSizing: "border-box",
+        padding: 17,
         borderRadius: 16,
         background: "linear-gradient(155deg, #111C26 0%, #080D13 100%)",
-        color: "#E8F7FF",
-        border: "1px solid #275565",
-        boxShadow: "0 0 25px rgba(30,190,220,0.13), 0 16px 40px rgba(0,0,0,0.45)",
+        color: COLORS.text,
+        border: "1px solid #294454",
+        boxShadow: "0 12px 40px rgba(0,0,0,0.45)",
         fontFamily: "Inter, system-ui, sans-serif",
         fontSize: 13,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      {/* Dashboard header */}
+      <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
         <div
           style={{
-            width: 38,
-            height: 38,
+            width: 40,
+            height: 40,
+            flexShrink: 0,
             display: "grid",
             placeItems: "center",
             borderRadius: 11,
             background: "#102E3A",
-            color: "#4CE4FF",
-            fontSize: 23,
-            boxShadow: "inset 0 0 14px rgba(76,228,255,0.12)",
+            color: COLORS.cyan,
+            fontSize: 22,
           }}
         >
           ◈
         </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 800, letterSpacing: 1.4 }}>
-            ENVIRONMENT
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 850,
+              letterSpacing: 1.2,
+            }}
+          >
+            ENVIRONMENT MONITOR
           </div>
-          <div style={{ color: "#6F9AAA", fontSize: 10, letterSpacing: 2, marginTop: 3 }}>
-            TELEMETRY / LIVE SYSTEM
+
+          <div
+            style={{
+              color: COLORS.muted,
+              fontSize: 9,
+              letterSpacing: 1.4,
+              marginTop: 5,
+            }}
+          >
+            SENSOR TELEMETRY & ML
           </div>
         </div>
+
         <div
-          title={latest ? "Prediction received" : "Waiting for prediction"}
+          title={
+            latest
+              ? "ML prediction received"
+              : "Waiting for ML prediction"
+          }
           style={{
             width: 8,
             height: 8,
+            flexShrink: 0,
             borderRadius: "50%",
-            background: latest ? "#48E0AD" : "#E9AB48",
-            boxShadow: `0 0 12px ${latest ? "#48E0AD" : "#E9AB48"}`,
+            background: latest ? COLORS.green : COLORS.amber,
+            boxShadow: `0 0 10px ${
+              latest ? COLORS.green : COLORS.amber
+            }`,
           }}
         />
       </div>
 
-      <div style={{ height: 1, background: "linear-gradient(90deg, #38DDF5, #243744, transparent)", margin: "17px 0" }} />
+      <div
+        style={{
+          height: 1,
+          background:
+            "linear-gradient(90deg, #38DDF5, #243744, transparent)",
+          margin: "16px 0",
+        }}
+      />
+
+      {/* ML prediction section */}
+      <div style={sectionStyle}>MACHINE LEARNING PREDICTION</div>
 
       {!latest ? (
-        <div style={{ color: "#9CB5C3", padding: "18px 4px", lineHeight: 1.6 }}>
-          <div style={{ fontSize: 11, letterSpacing: 1.4, marginBottom: 8 }}>
-            INITIALIZING TELEMETRY
+        <div
+          style={{
+            padding: 13,
+            borderRadius: 10,
+            background: "#0C131B",
+            border: `1px solid ${COLORS.border}`,
+            color: COLORS.muted,
+            lineHeight: 1.6,
+          }}
+        >
+          <div
+            style={{
+              color: COLORS.amber,
+              fontWeight: 800,
+              fontSize: 11,
+              marginBottom: 5,
+            }}
+          >
+            {error ? "PREDICTION ERROR" : "AWAITING PREDICTION"}
           </div>
-          {error || "Waiting for sensor data and ML prediction..."}
+
+          {error ||
+            "Waiting for temperature and humidity data from the ML bridge."}
         </div>
       ) : (
         <>
-          <div style={{ color: "#79A0B0", fontSize: 10, letterSpacing: 1.8 }}>
-            AMBIENT TEMPERATURE
-          </div>
-
-          <div style={{ display: "flex", alignItems: "baseline", gap: 5, marginTop: 4 }}>
-            <span
-              style={{
-                fontSize: 48,
-                fontWeight: 800,
-                letterSpacing: -2,
-                lineHeight: 1.2,
-                color: "#F2B85C",
-                textShadow: "0 0 22px rgba(242,184,92,0.15)",
-              }}
-            >
-              {latest.temperature.toFixed(1)}
-            </span>
-            <span style={{ fontSize: 17, color: "#C7A46B" }}>°C</span>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 17px" }}>
-            <div style={{ height: 4, flex: 1, background: "#26323B", borderRadius: 5, overflow: "hidden" }}>
-              <div
-                style={{
-                  width: `${Math.max(0, Math.min(100, latest.temperature / 80 * 100))}%`,
-                  height: "100%",
-                  background: "linear-gradient(90deg, #3ED9E8, #F2B85C, #FF685F)",
-                  borderRadius: 5,
-                  boxShadow: "0 0 10px rgba(242,184,92,0.3)",
-                }}
-              />
-            </div>
-            <span style={{ color: "#7995A4", fontSize: 10 }}>TEMP</span>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 }}>
-            <div style={{ background: "#121F29", border: "1px solid #233B49", borderRadius: 10, padding: 12 }}>
-              <div style={{ color: "#7EA1B0", fontSize: 10, letterSpacing: 1 }}>HUMIDITY</div>
-              <div style={{ color: "#4CE4FF", fontSize: 23, fontWeight: 750, marginTop: 7 }}>
-                {latest.humidity.toFixed(1)}<span style={{ fontSize: 12, marginLeft: 3 }}>%</span>
-              </div>
-            </div>
-
-            <div style={{ background: "#121F29", border: "1px solid #233B49", borderRadius: 10, padding: 12 }}>
-              <div style={{ color: "#7EA1B0", fontSize: 10, letterSpacing: 1 }}>ML RISK</div>
-              <div
-                style={{
-                  color: latest.prediction.risk.toUpperCase() === "CRITICAL" ? "#FF7474" : latest.prediction.risk.toUpperCase() === "WARNING" ? "#F2B85C" : "#48E0AD",
-                  fontSize: 18,
-                  fontWeight: 800,
-                  marginTop: 9,
-                  textShadow: "0 0 12px currentColor",
-                }}
-              >
-                {latest.prediction.risk.toUpperCase()}
-              </div>
-            </div>
-          </div>
-
-          <div style={{ marginTop: 18, marginBottom: 9, fontSize: 10, letterSpacing: 1.7, color: "#7999A8" }}>
-            OUTPUT PREDICTIONS
-          </div>
-
-          {[
-            { label: "COOLING FAN", value: latest.prediction.fan, icon: "◉" },
-            { label: "ALERT INDICATOR", value: latest.prediction.led, icon: "◈" },
-          ].map((item) => (
+          <div
+            style={{
+              padding: 14,
+              background: COLORS.panel,
+              border: `1px solid ${COLORS.border}`,
+              borderRadius: 12,
+              marginBottom: 9,
+            }}
+          >
             <div
-              key={item.label}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "11px 12px",
-                marginBottom: 7,
-                borderRadius: 9,
-                background: item.value ? "rgba(58,215,174,0.07)" : "#121B23",
-                border: `1px solid ${item.value ? "rgba(58,215,174,0.3)" : "#253540"}`,
+                color: COLORS.muted,
+                fontSize: 10,
+                letterSpacing: 1.2,
+                fontWeight: 700,
               }}
             >
-              <span style={{ color: item.value ? "#48E0AD" : "#647D8B", fontSize: 18 }}>
-                {item.icon}
-              </span>
-              <span style={{ flex: 1, fontSize: 11, letterSpacing: 0.8, fontWeight: 650 }}>
-                {item.label}
-              </span>
-              <span style={{ color: item.value ? "#48E0AD" : "#80919D", fontWeight: 800, fontSize: 11 }}>
-                {item.value ? "● ON" : "○ OFF"}
-              </span>
+              PREDICTED RISK LEVEL
             </div>
-          ))}
 
-          <div style={{ borderTop: "1px solid #243541", marginTop: 14, paddingTop: 10, display: "flex", justifyContent: "space-between", color: "#648391", fontSize: 10 }}>
-            <span>BOARD LINK</span>
-            <span>{latest.boardId}</span>
+            <div
+              style={{
+                color: riskColor(latest.prediction.risk),
+                fontSize: 26,
+                fontWeight: 900,
+                letterSpacing: 1,
+                marginTop: 7,
+              }}
+            >
+              {latest.prediction.risk.toUpperCase()}
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 9,
+            }}
+          >
+            <MetricCard
+              label="TEMPERATURE"
+              value={latest.temperature.toFixed(1)}
+              unit="°C"
+              color={COLORS.amber}
+            />
+
+            <MetricCard
+              label="HUMIDITY"
+              value={latest.humidity.toFixed(1)}
+              unit="%"
+              color={COLORS.cyan}
+            />
+          </div>
+
+          <div
+            style={{
+              ...sectionStyle,
+              marginTop: 18,
+              marginBottom: 8,
+            }}
+          >
+            PREDICTED OUTPUTS
+          </div>
+
+          {outputRow(
+            "COOLING FAN",
+            latest.prediction.fan,
+            "◉"
+          )}
+
+          {outputRow(
+            "ALERT INDICATOR",
+            latest.prediction.led,
+            "◈"
+          )}
+
+          <div
+            style={{
+              color: "#6F9AAA",
+              fontSize: 10,
+              marginTop: 9,
+            }}
+          >
+            Board: {latest.boardId}
           </div>
         </>
       )}
+
+      <div
+        style={{
+          height: 1,
+          background: COLORS.border,
+          margin: "17px 0",
+        }}
+      />
+
+      {/* Smoke and gas sensor section */}
+      <div style={sectionStyle}>AIR QUALITY SENSOR INPUTS</div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 9,
+        }}
+      >
+        {sensorCard(
+          "SMOKE LEVEL",
+          smokeSensors,
+          100,
+          COLORS.amber
+        )}
+
+        {sensorCard(
+          "GAS LEVEL",
+          gasSensors,
+          1023,
+          COLORS.cyan
+        )}
+      </div>
+
+      <div
+        style={{
+          color: "#617989",
+          fontSize: 9,
+          lineHeight: 1.6,
+          marginTop: 12,
+        }}
+      >
+        Smoke and gas show simulator input levels. They are not
+        calibrated real-world concentration measurements.
+      </div>
     </div>
   );
 }

@@ -99,6 +99,40 @@ export class ComponentRegistry {
         pinCount: 2,
         tags: ['dc motor', 'fan', 'motor', 'pwm'],
       });
+      
+      data.components.push({
+        id: 'pro-smoke-sensor',
+        tagName: 'velxio-smoke-sensor',
+        name: 'Smoke / Gas Sensor',
+        category: 'sensors',
+        description: 'Custom simulated smoke and gas sensor with adjustable level and alarm indicator.',
+        thumbnail:
+          '<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="8" fill="#14532d"/><rect x="12" y="24" width="40" height="30" rx="4" fill="#22c55e"/><circle cx="32" cy="22" r="15" fill="#94a3b8" stroke="#475569" stroke-width="3"/><circle cx="32" cy="22" r="8" fill="#64748b"/><circle cx="46" cy="44" r="4" fill="#ef4444"/></svg>',
+        properties: [
+          {
+            name: 'smoke-level',
+            type: 'number',
+            defaultValue: 0,
+            min: 0,
+            max: 100,
+            control: 'range',
+            description: 'Simulated smoke/gas level (0–100).',
+          },
+          {
+            name: 'alarm',
+            type: 'boolean',
+            defaultValue: false,
+            control: 'boolean',
+            description: 'Simulated smoke alarm state.',
+          },
+        ],
+        defaultValues: {
+          'smoke-level': 0,
+          alarm: false,
+        },
+        pinCount: 4,
+        tags: ['smoke', 'gas', 'mq2', 'sensor', 'alarm'],
+      });
 
       // Inject Raspberry Pi 3 / 4 / 5 metadata. All three share the
       // same 40-pin GPIO header; the simulator backend picks a

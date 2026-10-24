@@ -503,6 +503,25 @@ export const SENSOR_CONTROLS: Record<string, SensorControlDef> = {
     defaultValues: { gasLevel: 100 },
   },
 
+  
+  // ── Custom Smoke Sensor ────────────────────────────────────────────────
+  'pro-smoke-sensor': {
+    title: 'Smoke Sensor',
+    controls: [
+      {
+        type: 'slider',
+        key: 'smokeLevel',
+        label: 'Smoke Level',
+        min: 0,
+        max: 100,
+        step: 1,
+        unit: '',
+        defaultValue: 0,
+      },
+    ],
+    defaultValues: { smokeLevel: 0 },
+  },
+
   // ── Flame Sensor ──────────────────────────────────────────────────────────
   'flame-sensor': {
     title: 'Flame Sensor',

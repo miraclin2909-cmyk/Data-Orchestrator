@@ -256,21 +256,29 @@ export const ComponentPropertyDialog: React.FC<ComponentPropertyDialogProps> = (
         </div>
       )}
 
-      {/* Editable Properties (select dropdowns + text/number inputs) */}
+      
+      {/* Editable Properties */}
       {componentMetadata.properties.filter((p: any) => isEditable(p)).length > 0 && (
         <div className="property-edit-section">
           {componentMetadata.properties
             .filter((p: any) => isEditable(p))
             .map((prop: any) => {
-              const current = String(componentProperties[prop.name] ?? prop.defaultValue ?? '');
+              const current = String(
+                componentProperties[prop.name] ?? prop.defaultValue ?? ''
+              );
+
               if (prop.control === 'select' && prop.options) {
                 return (
                   <div key={prop.name} className="property-edit-row">
-                    <label className="property-edit-label">{prop.description || prop.name}</label>
+                    <label className="property-edit-label">
+                      {prop.description || prop.name}
+                    </label>
                     <select
                       className="property-edit-select"
                       value={current}
-                      onChange={(e) => onPropertyChange?.(componentId, prop.name, e.target.value)}
+                      onChange={(e) =>
+                        onPropertyChange?.(componentId, prop.name, e.target.value)
+                      }
                     >
                       {prop.options.map((opt: string) => (
                         <option key={opt} value={opt}>
@@ -281,14 +289,54 @@ export const ComponentPropertyDialog: React.FC<ComponentPropertyDialogProps> = (
                   </div>
                 );
               }
+
+              if (prop.control === 'range') {
+                const min = Number(prop.min ?? 0);
+                const max = Number(prop.max ?? 100);
+                const step = Number(prop.step ?? 1);
+
+                return (
+                  <div key={prop.name} className="property-edit-row">
+                    <label className="property-edit-label">
+                      {prop.description || prop.name}: {current}
+                    </label>
+                    <input
+                      type="range"
+                      className="property-edit-input"
+                      min={min}
+                      max={max}
+                      step={step}
+                      value={Number(current)}
+                      onChange={(e) =>
+                        onPropertyChange?.(
+                          componentId,
+                          prop.name,
+                          Number(e.target.value)
+                        )
+                      }
+                    />
+                  </div>
+                );
+              }
+
               return (
                 <div key={prop.name} className="property-edit-row">
-                  <label className="property-edit-label">{prop.description || prop.name}</label>
+                  <label className="property-edit-label">
+                    {prop.description || prop.name}
+                  </label>
                   <input
                     type={prop.control === 'number' ? 'number' : 'text'}
                     className="property-edit-input"
                     value={current}
-                    onChange={(e) => onPropertyChange?.(componentId, prop.name, e.target.value)}
+                    onChange={(e) =>
+                      onPropertyChange?.(
+                        componentId,
+                        prop.name,
+                        prop.control === 'number'
+                          ? Number(e.target.value)
+                          : e.target.value
+                      )
+                    }
                   />
                 </div>
               );
